@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="trading/trade.css">
+        <style>
+            #wrapper{
+                padding: 15px;
+                background-color: lightgoldenrodyellow;
+            }
+            #submit{
+                margin: 15px 0px 15px 0px;
+            }
+            .resource_column{
+                display: inline-block;
+                width: 15%;
+                height: 200px;
+                margin: 1%;
+            }
+            .resource_column img{
+                display: block;
+                height: 180px;
+                border: 1px solid grey;
+                margin-bottom: 10px;
+            }
+            .resource_column select{
+                display: block;
+            }
+        </style>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        {% load static %}
+    </head>
+    <body>
+        <div id="wrapper">
+            <form action="/trading/trade" method="POST">
+                {% csrf_token %}
+                <div id="p1">
+                    <h3>Player X</h3>
+                    <div class="resource_column">
+                        <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
+                        <select name="p1sheep">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/ore.jpg" alt="ore">-->
+                        <select name="p1ore">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--img src="images/wheat.jpg" alt="wheat">-->
+                        <select name="p1wheat">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/brick.jpg" alt="brick">-->
+                        <select name="p1brick">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/lumber.jpg" alt="lumber">-->
+                        <select name="p1lumber">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+                <input id="submit" class="btn btn-success" type="submit" value="Confirm">
+                {% for i in jinjasux %}
+                <p>jinjasux</p>
+                {% endfor %}
+                <div id="p2">
+                    <div class="resource_column">
+                        <!--<img src="images/sheep.jpg" alt="sheep">-->
+                        <select name="p2sheep">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/ore.jpg" alt="ore">-->
+                        <select name="p2ore">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/wheat.jpg" alt="wheat">-->
+                        <select name="p2wheat">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/brick.jpg" alt="brick">-->
+                        <select name="p2brick">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="resource_column">
+                        <!--<img src="images/lumber.jpg" alt="lumber">-->
+                        <select name="p2lumber">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <h3>Player Y</h3>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
