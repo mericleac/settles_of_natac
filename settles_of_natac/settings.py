@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.login_reg_lobby',
+    'apps.main_game',
+    'apps.trading',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
