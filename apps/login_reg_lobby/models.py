@@ -4,16 +4,45 @@ import re
 class PlayerManager(models.Manager):
     def validator(self, post_data):
         errors = {}
-        if len(post_data['name']) == 0:
-            errors['name'] = "You must enter a name!"
+        if len(post_data['player1Name']) == 0:
+            errors['player1Name'] = "You must enter a name!"
+        if len(post_data['player2Name']) == 0:
+            errors['player2Name'] = "You must enter a name!"
+        return errors
+
+class UserManager(models.Manager):
+    def basic_validator(self, postData):
+        errors = {}
+        if len(postData['userName']) < 1:
+            errors["userName"] = "Please enter a name!"
+        if len(User.objects.filter(user_name=postData['userName'])) > 0:
+            errors["userName"] = "User Name already taken. Please choose a different name."
+        if not re.match(r"[^@]+@[^@]+\.[^@]+.", postData['email']):
+            errors["email"] = "Invalid email."
+        if len(User.objects.filter(email=postData['email'])) > 0:
+            errors["email"] = "This email is already registered."
+        if len(postData['password']) < 8:
+            errors["password"] = "Password must be longer than 8 characters."
+        if len(postData['password']) >= 8:
+            if postData['password'] != postData['passwordConf']:
+                errors["passwordConf"] = "Passwords do not match."
         return errors
 
 class Player(models.Model):
     name = models.CharField(max_length = 45)
-    vic_points = models.IntegerField(default=0)
-    wheat = models.IntegerField(default=0)
-    ore = models.IntegerField(default=0)
-    brick = models.IntegerField(default=0)
-    lumber = models.IntegerField(default=0)
-    sheep = models.IntegerField(default=0)
+    vic_points = models.IntegerField()
+    wheat = models.IntegerField()
+    ore = models.IntegerField()
+    brick = models.IntegerField()
+    lumber = models.IntegerField()
+    sheep = models.IntegerField()
     objects = PlayerManager()
+
+class User(models.Model):
+    user_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    password_confirmation = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+    objects = UserManager()

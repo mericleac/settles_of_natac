@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\apps",
+    "\\apps\\login_reg_lobby",
+    "\\apps\\login_reg_lobby\\templates",
+    "\\apps\\login_reg_lobby\\templates\\login_html",
+    "\\apps\\main_game",
+    "\\apps\\main_game\\templates",
+    "\\apps\\main_game\\templates\\main_game",
+    "\\apps\\trading",
+    "\\settles_of_natac"
+  ],
+  "SelectedNode": "\\apps\\login_reg_lobby\\templates\\login_html\\index.html",
+  "PreviewInSolutionExplorer": false
+}
