@@ -36,6 +36,30 @@ class Field(models.Model):
 #     adjacent_vertices = models.ManyToManyField(FieldVertex, related_name = "adjacent_edges")
 
 class Settlement(models.Model):
+    def purchase_settlement(self, player, city):
+        errors = []
+        if self.player != None:
+            errors.append("That settlement is already owned!")
+        if city == False:
+            if player.brick < 1 or player.lumber < 1 or player.sheep < 1 or player.wheat < 1:
+                errors.append("Not enough resources!")
+        else:
+            if player.ore < 3 or player.wheat < 2:
+                errors.append("Not enough resources!")
+        owned_road = False
+        spaced_out = True
+        for road in self.adjacent_roads.all():
+            if road.player == player:
+                owned_road = True
+            for settlement in road.adjacent_settlements.all():
+                if settlement.player != None:
+                    spaced_out = False
+        if owned_road == False:
+            errors.append("You must own a road adjoining a settlement in order to purchase it!")
+        if spaced_out == False:
+            errors.append("You may only build a settlement if the intersection adjacent to it are vacant!")
+        return errors
+
     player = models.ForeignKey(Player, related_name = "settlements", default=None, null=True)
     # added rank field in order to consolidate settlements and cities
     rank = models.CharField(max_length = 45, default="normal")
@@ -49,6 +73,14 @@ class Settlement(models.Model):
 #     vertex = models.OneToOneField(Vertex)
 
 class Road(models.Model):
+    def purchase_road (self, player):
+        errors = []
+        if self.player != None:
+            errors.append("That road is already owned!")
+        if player.brick < 1 or player.lumber < 1:
+            errors.append("Not enough resources!")
+        return errors
+
     player = models.ForeignKey(Player, related_name = "roads", default = None, null=True)
     # changed this relationship to be with fields instead
     adjacent_settlements = models.ManyToManyField(Settlement, related_name="adjacent_roads")

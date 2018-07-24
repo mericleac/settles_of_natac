@@ -25,3 +25,47 @@ def roll_dice(request):
                 log.append(*messages)
     request.session['log'] = log
     return redirect('/game')
+
+def purchase_settlement (request, settlement_id):
+    # replace with current player
+    player = Player.objects.last()
+    settlement = Settlement.objects.get(id= int(settlement_id))
+    errors = settlement.purchase_settlement(player, False)
+    if len(errors) == 0:
+        player.brick -= 1
+        player.lumber -= 1
+        player.sheep -= 1
+        player.wheat -= 1
+        player.vic_points += 1
+        player.save()
+        settlement.player = player
+        settlement.save()
+        return redirect('/game')
+    else:
+        request.session['errors'] = errors
+        print(*errors)
+        return redirect('/game')
+
+def purchase_road (request, road_id):
+    # replace with current player
+    player = Player.objects.last()
+    road = Road.objects.get(id = int(road_id))
+    print("*" * 100)
+    print(road)
+    print(road.player)
+    errors = road.purchase_road(player)
+    if len(errors) == 0:
+        player.brick -= 1
+        player.lumber -= 1
+        player.save()
+        road.player = player
+        road.save()
+        return redirect('/game')
+    else:
+        request.session['errors'] = errors
+        print(*errors)
+        return redirect('/game')
+        
+
+
+
