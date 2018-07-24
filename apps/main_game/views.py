@@ -25,3 +25,24 @@ def roll_dice(request):
                 log.append(*messages)
     request.session['log'] = log
     return redirect('/game')
+
+def setup(request):
+    request.session['currPlayer'] = request.session['player'][0]
+    return redirect('/game/player_turn')
+
+def player_turn(request):
+    print(request.session['player'])
+    print(request.session['currPlayer'])
+    for i in range(len(request.session['player'])):
+        if request.session['player'][i] == request.session['currPlayer']:
+            #print('player at i:', request.session['player'][i], 'current player:', request.session['currPlayer'])
+            break
+    #print("i is: ", i)
+    if i == len(request.session['player']) - 1:
+        request.session['currPlayer'] = request.session['player'][0]
+        #print('current player is now:', request.session['currPlayer'])
+    else:
+        i += 1
+        request.session['currPlayer'] = request.session['player'][i]
+        #print('current player is now:', request.session['currPlayer'])
+    return redirect('/game')
