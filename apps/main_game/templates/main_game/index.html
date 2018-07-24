@@ -83,7 +83,7 @@
             top: 40px;
         }
         .bottom {
-            transform: rotate(180deg);
+            transform: rotate(180deg) scaleX(-1);
             top: -68px;
             z-index: 5;
         }
@@ -365,8 +365,33 @@
     <script>
         $('document').ready(function(){
 
+            // add id data to each settlement
+            let settlement_id = 4
+            $(".circle").each(function(){
+                // This weird conditional is because I skipped a settlement in assignment, oops.
+                if (settlement_id < 31) {
+                    $(this).data("id", settlement_id);
+                }
+                else if (settlement_id === 31) {
+                    $(this).data("id", 57);
+                }
+                else {
+                    $(this).data("id", settlement_id - 1);
+                }
+                settlement_id++;
+            });
+            
+            // add id data to each road
+            let road_id = 1
+            $(".track").each(function(){
+                $(this).data("id", road_id);
+                road_id++;
+            });
+
             $(".circle").click(function(){
-               $(this).addClass("player1");
+                route = "/game/purchase_settlement/" + $(this).data("id")
+                window.location.href = route
+                $(this).addClass("player1");
             });
             $(".track").click(function(){
                $(this).addClass("player1");
