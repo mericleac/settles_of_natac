@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col-sm-5" style="display:inline-block; vertical-align:top; margin-top:50px;">
+            <h4>Register</h4>
+            <form action="register" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="userName" class="col-sm-4 col-form-label">User Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="userName" value="{{request.session.userName}}" placeholder="Lord of Natac" aria-describedby="userNameError">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == "userName error" %}
+                        <small id="userNameError" class="form-text" style="color:red;">*{{message}}</small>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label">Email:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="email" value="{{request.session.email}}" placeholder="Greatest@Settler.com" aria-describedby="emailError">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == "email error" %}
+                        <small id="emailError" class="form-text" style="color:red;">*{{message}}</small>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-4 col-form-label">Password:</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="password" aria-describedby="passError">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == "password error" %}
+                        <small id="passError" class="form-text" style="color:red;">*{{message}}</small>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="passwordConf" class="col-sm-4 col-form-label">Confirm PW:</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="passwordConf" aria-describedby="confError">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == "passwordConf error" %}
+                        <small id="confError" class="form-text" style="color:red;">*{{message}}</small>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-sm-12 text-right">
+                        <button type="submit" class="btn btn-success">Register</button>
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "success success" %}
+                    <p style="margin-bottom:-40px; color:green;">*{{message}}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-4" style="display:inline-block; vertical-align:top; margin-top:50px;">
+            <h4>Log In</h4>
+            <form action="login" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label">Email:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="email" value="{{request.session.emailLogin}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-4 col-form-label">Password:</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="password">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == "loginError error" %}
+                        <p style="margin-bottom:-40px; color:red;">*{{message}}</p>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-right">
+                        <button type="submit" class="btn btn-success">Log In</button>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</body>
+</html>
