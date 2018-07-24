@@ -11,19 +11,13 @@ def index(request):
     playerB = Player.objects.get(name="Bob")
     context = {
         'p1': playerA,
-        'p2': playerB,
-        'jinjasux': [0, 1, 2, 3, 4]
+        'p2': playerB
     }
-    print("*"*100)
-    print(context['p2'].sheep)
-    return render(request, "trading/trade.html")
+    return render(request, "trading/trade.html", context)
 
 def trade(request):
     playerA = Player.objects.get(name="Alice")
     playerB = Player.objects.get(name="Bob")
-    print("*"*120)
-    print(request.POST)
-    print(playerA.wheat)
     playerA.wheat += int(request.POST['p2wheat'])
     playerA.ore += int(request.POST['p2ore'])
     playerA.brick += int(request.POST['p2brick'])
