@@ -10,10 +10,10 @@ class PlayerManager(models.Manager):
 
 class Player(models.Model):
     name = models.CharField(max_length = 45)
-    vic_points = models.IntegerField()
-    wheat = models.IntegerField()
-    ore = models.IntegerField()
-    brick = models.IntegerField()
-    lumber = models.IntegerField()
-    sheep = models.IntegerField()
+    vic_points = models.IntegerField(default=0)
+    wheat = models.IntegerField(default=0)
+    ore = models.IntegerField(default=0)
+    brick = models.IntegerField(default=0)
+    lumber = models.IntegerField(default=0)
+    sheep = models.IntegerField(default=0)
     objects = PlayerManager()

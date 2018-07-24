@@ -8,6 +8,9 @@
     <link rel='stylesheet' type='text/css' media='screen' href='style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
+        body {
+            text-align: center;
+        }
         .hexagon {
             display: inline-block;
             vertical-align: top;
@@ -45,7 +48,10 @@
             border-bottom: solid 2.8284px #333333;
             border-left: solid 2.8284px #333333;
         }
-            
+        p {
+            position: relative;
+            z-index: 5;
+        }  
         .row {
             height: 129px;
             width: fit-content;
@@ -117,33 +123,33 @@
 </head>
 <body>
     <div class="row">
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
+        <div class="hexagon"><p>11 Forest</p></div>
+        <div class="hexagon"><p>12 Pasture</p></div>
+        <div class="hexagon"><p>9 Field</p></div>
     </div>
     <div class="row">
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
+        <div class="hexagon"><p>4 Hill</p></div>
+        <div class="hexagon"><p>6 Mountain</p></div>
+        <div class="hexagon"><p>5 Hill</p></div>
+        <div class="hexagon"><p>10 Pasture</p></div>
     </div>
     <div class="row">
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
+        <div class="hexagon"><p>Desert</p></div>
+        <div class="hexagon"><p>3 Forest</p></div>
+        <div class="hexagon"><p>11 Field</p></div>
+        <div class="hexagon"><p>4 Forest</p></div>
+        <div class="hexagon"><p>8 Field</p></div>
     </div>
     <div class="row">
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
+        <div class="hexagon"><p>8 Hill</p></div>
+        <div class="hexagon"><p>10 Pasture</p></div>
+        <div class="hexagon"><p>9 Pasture</p></div>
+        <div class="hexagon"><p>3 Mountain</p></div>
     </div>
     <div class="row">
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
-        <div class="hexagon"></div>
+        <div class="hexagon"><p>5 Mountain</p></div>
+        <div class="hexagon"><p>2 Field</p></div>
+        <div class="hexagon"><p>6 Forest</p></div>
     </div>
     <div class="settlement_overlay">
         <div class="row">
@@ -308,6 +314,7 @@
             <div class="track"></div> 
             <div class="track"></div> 
         </div>
+        <a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a>
 
     </div>
 

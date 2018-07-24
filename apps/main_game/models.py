@@ -7,8 +7,23 @@ class Field(models.Model):
     #o feel free to switch this line around if it looks like I've gotten the syntax off
     #https://docs.djangoproject.com/en/dev/ref/models/fields/#manytomanyfield 
     adjacent_fields = models.ManyToManyField("self")
+    # added number to check dice rolls against
+    number = models.IntegerField()
     #I don't think the robber is in our MVP, but I'll leave this line here for now. We can do stuff with it later if we have time
     robber = models.BooleanField()
+    def distribute_resources (self):
+        for settlement in self.adjacent_settlements.all():
+            if settlement.player != None:
+                player = settlement.player
+                if settlement.rank == "city":
+                    player.__dict__[self.resource] += 2
+                    player.save()
+                else: 
+                    player.__dict__[str(self.resource)] += 1
+                    player.save()
+            else: 
+                print('no player has claimed this settlement')
+        return self
 
 # I don't think we need this, we can just set up a direct relationship between fields and settlements
 # class Vertex(models.Model):
@@ -20,7 +35,7 @@ class Field(models.Model):
 #     adjacent_vertices = models.ManyToManyField(FieldVertex, related_name = "adjacent_edges")
 
 class Settlement(models.Model):
-    player = models.ForeignKey(Player, related_name = "settlements")
+    player = models.ForeignKey(Player, related_name = "settlements", default=None, null=True)
     # added rank field in order to consolidate settlements and cities
     rank = models.CharField(max_length = 45, default="normal")
     # changed this relationship to be with fields instead
