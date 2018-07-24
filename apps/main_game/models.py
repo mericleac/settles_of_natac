@@ -12,18 +12,19 @@ class Field(models.Model):
     #I don't think the robber is in our MVP, but I'll leave this line here for now. We can do stuff with it later if we have time
     robber = models.BooleanField()
     def distribute_resources (self):
+        log = []
         for settlement in self.adjacent_settlements.all():
             if settlement.player != None:
                 player = settlement.player
                 if settlement.rank == "city":
+                    log.append("Alloting resources to " + player.name + "'s city.")
                     player.__dict__[self.resource] += 2
                     player.save()
                 else: 
+                    log.append("Alloting resources to " + player.name + "'s settlement.")
                     player.__dict__[str(self.resource)] += 1
                     player.save()
-            else: 
-                print('no player has claimed this settlement')
-        return self
+        return log
 
 # I don't think we need this, we can just set up a direct relationship between fields and settlements
 # class Vertex(models.Model):
@@ -48,9 +49,9 @@ class Settlement(models.Model):
 #     vertex = models.OneToOneField(Vertex)
 
 class Road(models.Model):
-    player = models.ForeignKey(Player, related_name = "roads")
+    player = models.ForeignKey(Player, related_name = "roads", default = None, null=True)
     # changed this relationship to be with fields instead
-    adjacent_fields = models.ManyToManyField(Field, related_name="adjacent_roads")
+    adjacent_settlements = models.ManyToManyField(Settlement, related_name="adjacent_roads")
 
 class DevCard(models.Model):
     player = models.ForeignKey(Player, related_name = "devcards")
