@@ -73,6 +73,14 @@ class Settlement(models.Model):
 #     vertex = models.OneToOneField(Vertex)
 
 class Road(models.Model):
+    def purchase_road (self, player):
+        errors = []
+        if self.player != None:
+            errors.append("That road is already owned!")
+        if player.brick < 1 or player.lumber < 1:
+            errors.append("Not enough resources!")
+        return errors
+
     player = models.ForeignKey(Player, related_name = "roads", default = None, null=True)
     # changed this relationship to be with fields instead
     adjacent_settlements = models.ManyToManyField(Settlement, related_name="adjacent_roads")

@@ -391,10 +391,14 @@
             $(".circle").click(function(){
                 route = "/game/purchase_settlement/" + $(this).data("id")
                 window.location.href = route
+                // gives a background color of red
                 $(this).addClass("player1");
             });
+
             $(".track").click(function(){
-               $(this).addClass("player1");
+                route = "/game/purchase_road/" + $(this).data("id")
+                window.location.href = route
+                $(this).addClass("player1");
             });
 
             $(".player_info").click(function(){
