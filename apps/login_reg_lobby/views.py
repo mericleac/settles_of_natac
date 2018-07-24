@@ -84,13 +84,58 @@ def lobbyReg(request):
         # This return statement means the user input generated errors. Redirect to same page
         return redirect('/lobby')
     else:
-        print("*"*80)
-        print("no errors.")
-        p1 = Player.objects.create(name=request.POST['player1Name'], vic_points=0, wheat=0, ore=0, brick=0, lumber=0, sheep=0)
-        p2 = Player.objects.create(name=request.POST['player2Name'], vic_points=0, wheat=0, ore=0, brick=0, lumber=0, sheep=0)
-        p1.save()
-        p2.save()
-        request.session['p1Id'] = p1.id
-        request.session['p2Id'] = p2.id
-        return redirect('/game')
+        request.session['player'] = []
+        if request.POST['player1Name']:
+            p1 = Player.objects.create(
+                name=request.POST['player1Name'], 
+                vic_points=0, 
+                wheat=0, 
+                ore=0, 
+                brick=0, 
+                lumber=0, 
+                sheep=0
+                )
+            p1.save()
+            request.session['player'].append(p1.id)
+        if request.POST['player2Name']:
+            p2 = Player.objects.create(
+                name=request.POST['player2Name'], 
+                vic_points=0, 
+                wheat=0, 
+                ore=0, 
+                brick=0, 
+                lumber=0, 
+                sheep=0
+                )
+            p2.save()
+            request.session['player'].append(p2.id)
+        if request.POST['player3Name']:
+            p3 = Player.objects.create(
+                name=request.POST['player2Name'], 
+                vic_points=0, 
+                wheat=0, 
+                ore=0, 
+                brick=0, 
+                lumber=0, 
+                sheep=0
+                )
+            p3.save()
+            request.session['player'].append(p3.id)
+        if request.POST['player4Name']:
+            p4 = Player.objects.create(
+                name=request.POST['player2Name'], 
+                vic_points=0, 
+                wheat=0, 
+                ore=0, 
+                brick=0, 
+                lumber=0, 
+                sheep=0
+                )
+            p4.save()
+            request.session['player'].append(p4.id)
+        counter = 0
+        if len(request.session['player']) < 2:
+            messages.error(request, 'Need to enter at least two players', 'playersCount')
+            return redirect('/lobby')
+        return redirect('/game/setup')
 
