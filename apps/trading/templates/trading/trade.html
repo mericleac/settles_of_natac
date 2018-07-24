@@ -21,6 +21,7 @@
             .resource_column img{
                 display: block;
                 height: 180px;
+                width: 100%;
                 border: 1px solid grey;
                 margin-bottom: 10px;
             }
@@ -36,104 +37,51 @@
             <form action="/trading/trade" method="POST">
                 {% csrf_token %}
                 <div id="p1">
-                    <h3>Player X</h3>
+                    <h3>{{ p1.name }}</h3>
                     <div class="resource_column">
                         <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
-                        <select name="p1sheep">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <input type="number" name="p1sheep" min="0" max={{ p1.sheep }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/ore.jpg" alt="ore">-->
-                        <select name="p1ore">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/ore.jpg' %}" alt="ore">
+                        <input type="number" name="p1ore" min="0" max={{ p1.ore }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--img src="images/wheat.jpg" alt="wheat">-->
-                        <select name="p1wheat">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/wheat.jpg' %}" alt="wheat">
+                        <input type="number" name="p1wheat" min="0" max={{ p1.wheat }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/brick.jpg" alt="brick">-->
-                        <select name="p1brick">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
+                        <input type="number" name="p1brick" min="0" max={{ p1.brick }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/lumber.jpg" alt="lumber">-->
-                        <select name="p1lumber">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/lumber.jpg' %}" alt="lumber">
+                        <input type="number" name="p1lumber" min="0" max={{ p1.lumber }} step="1" value="0">
                     </div>
                 </div>
                 <input id="submit" class="btn btn-success" type="submit" value="Confirm">
-                {% for i in jinjasux %}
-                <p>jinjasux</p>
-                {% endfor %}
                 <div id="p2">
                     <div class="resource_column">
-                        <!--<img src="images/sheep.jpg" alt="sheep">-->
-                        <select name="p2sheep">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
+                        <input type="number" name="p2sheep" min="0" max={{ p2.sheep }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/ore.jpg" alt="ore">-->
-                        <select name="p2ore">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/ore.jpg' %}" alt="ore">
+                        <input type="number" name="p2ore" min="0" max={{ p2.ore }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/wheat.jpg" alt="wheat">-->
-                        <select name="p2wheat">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/wheat.jpg' %}" alt="wheat">
+                        <input type="number" name="p2wheat" min="0" max={{ p2.wheat }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/brick.jpg" alt="brick">-->
-                        <select name="p2brick">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
+                        <input type="number" name="p2brick" min="0" max={{ p2.brick }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <!--<img src="images/lumber.jpg" alt="lumber">-->
-                        <select name="p2lumber">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <img src="{% static 'images/lumber.jpg' %}" alt="lumber">
+                        <input type="number" name="p2lumber" min="0" max={{ p2.lumber }} step="1" value="0">
                     </div>
-                    <h3>Player Y</h3>
+                    <h3>{{ p2.name }}</h3>
                 </div>
             </form>
         </div>
