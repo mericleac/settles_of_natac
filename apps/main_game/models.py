@@ -38,6 +38,11 @@ class Field(models.Model):
 #     adjacent_vertices = models.ManyToManyField(FieldVertex, related_name = "adjacent_edges")
 
 class Settlement(models.Model):
+    def is_owned(self):
+        if self.player == None:
+            return False
+        else:
+            return True
     def purchase_settlement(self, player, city):
         errors = []
         if self.player != None:
@@ -88,6 +93,11 @@ class Settlement(models.Model):
 #     vertex = models.OneToOneField(Vertex)
 
 class Road(models.Model):
+    def is_owned(self):
+        if self.player == None:
+            return False
+        else:
+            return True
     def purchase_road (self, player):
         errors = []
         if self.player != None:

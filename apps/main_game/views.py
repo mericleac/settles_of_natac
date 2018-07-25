@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from .models import *
 import json
 
@@ -9,7 +10,8 @@ def index(request):
     return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'] })
     
 def roll_dice(request):
-    log = request.session['log']
+    log = []
+    print(log)
     from random import randint
     die1 = randint(1, 6)
     log.append('first dice was: ' + str(die1))
@@ -30,12 +32,28 @@ def roll_dice(request):
     player = Player.objects.get(id=request.session['currPlayer'])
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
     context = {
-        "player": player,
-        "roads": roads,
-        "settlements": settlements
+        "player_info": {
+            "name": player.name,
+            "brick": player.brick,
+            "sheep": player.sheep,
+            "ore": player.ore,
+            "wheat": player.wheat,
+            "lumber": player.lumber,
+            "vic_points": player.vic_points,
+        },
+        "log": log,
+        "settlements": settle_dict,
+        "roads": road_dict
     }
-    return render(request, "main_game/info.html", context)
+    return JsonResponse(json.dumps(context), safe = False)
+
 
 def setup(request):
     request.session['currPlayer'] = request.session['player'][0]
@@ -83,6 +101,7 @@ def purchase_settlement (request, settlement_id):
     player = Player.objects.get(id=request.session['currPlayer'])
     settlement = Settlement.objects.get(id= int(settlement_id))
     errors = settlement.purchase_settlement(player, False)
+    json.dumps([1,2,3])
     if len(errors) == 0:
         player.brick -= 1
         player.lumber -= 1
@@ -95,10 +114,21 @@ def purchase_settlement (request, settlement_id):
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         context = {
-            "player": player,
-            "roads": roads,
-            "settlements": settlements,
-            "curr_settlement": 5
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            # "player": player,
+            # "roads": roads,
+            # "settlements": settlements,
+            # "curr_settlement": 5,
+            # "player_owned_settlements": Settlement.objects.filter(player=player),
+            "success": True
         }
         return render(request, "main_game/info.html", context)
     else:
@@ -108,12 +138,21 @@ def purchase_settlement (request, settlement_id):
         settlements = Settlement.objects.all()
         settlement = Settlement.objects.get(id= int(settlement_id))
         context = {
-            "player": player,
-            "roads": roads,
-            "settlements": settlements,
-            "curr_settlement": 5
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            # "roads": roads.__dict__,
+            # "settlements": settlements.__dict__,
+            "curr_settlement": 5,
+            "success": False
         }
-        return render(request, "main_game/info.html", context)
+        return JsonResponse(json.dumps(context), safe = False)
 
 def road(request, road_id):
     if request.session['setup'] == True:
@@ -140,22 +179,42 @@ def purchase_road (request, road_id):
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         context = {
-            "player": player,
-            "roads": roads,
-            "settlements": settlements
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            # "player": player,
+            # "roads": roads,
+            # "settlements": settlements
+            "success": True
         }
-        return render(request, "main_game/info.html", context)
+        return JsonResponse(json.dumps(context), safe = False)
     else:
         request.session['errors'] = errors
         print(*errors)
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         context = {
-            "player": player,
-            "roads": roads,
-            "settlements": settlements
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            # "player": player,
+            # "roads": roads,
+            # "settlements": settlements
+            "success": False
         }
-        return render(request, "main_game/info.html", context)
+        return JsonResponse(json.dumps(context), safe = False)
 
 def resources(request):
     player = Player.objects.get(id=request.session['currPlayer'])

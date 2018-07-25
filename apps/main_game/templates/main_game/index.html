@@ -5,9 +5,11 @@
     <title>Index</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
-    <!--<link rel='stylesheet' type='text/css' media='screen' href='style.css' />-->
+    {% load static %}
+    <link rel='stylesheet' type='text/css' media='screen' href='{% static "style.css" %}' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+<<<<<<< HEAD
     <style>
         body {
             text-align: center;
@@ -146,38 +148,40 @@
             height: 400px;
         }
     </style>
+=======
+>>>>>>> 9aca8fcd8e590006678854ded377ac83705f8d0b
 </head>
 <body>
     <form id="form" action="/game">
         {% csrf_token %}
     <div class="row">
-        <div class="hexagon"><p>11 Forest</p></div>
-        <div class="hexagon"><p>12 Pasture</p></div>
-        <div class="hexagon"><p>9 Field</p></div>
+        <div class="hexagon forest"><div class="hexTop"></div><p>11 Forest</p><div class="hexBottom"></div></div>
+        <div class="hexagon pasture"><div class="hexTop"></div><p>12 Pasture</p><div class="hexBottom"></div></div>
+        <div class="hexagon field"><div class="hexTop"></div><p>9 Field</p><div class="hexBottom"></div></div>
     </div>
     <div class="row">
-        <div class="hexagon"><p>4 Hill</p></div>
-        <div class="hexagon"><p>6 Mountain</p></div>
-        <div class="hexagon"><p>5 Hill</p></div>
-        <div class="hexagon"><p>10 Pasture</p></div>
+        <div class="hexagon hill"><div class="hexTop"></div><p>4 Hill</p><div class="hexBottom"></div></div>
+        <div class="hexagon mountain"><div class="hexTop"></div><p>6 Mountain</p><div class="hexBottom"></div></div>
+        <div class="hexagon hill"><div class="hexTop"></div><p>5 Hill</p><div class="hexBottom"></div></div>
+        <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
     </div>
     <div class="row">
-        <div class="hexagon"><p>Desert</p></div>
-        <div class="hexagon"><p>3 Forest</p></div>
-        <div class="hexagon"><p>11 Field</p></div>
-        <div class="hexagon"><p>4 Forest</p></div>
-        <div class="hexagon"><p>8 Field</p></div>
+        <div class="hexagon desert"><div class="hexTop"></div><p>Desert</p><div class="hexBottom"></div></div>
+        <div class="hexagon forest"><div class="hexTop"></div><p>3 Forest</p><div class="hexBottom"></div></div>
+        <div class="hexagon field"><div class="hexTop"></div><p>11 Field</p><div class="hexBottom"></div></div>
+        <div class="hexagon forest"><div class="hexTop"></div><p>4 Forest</p><div class="hexBottom"></div></div>
+        <div class="hexagon field"><div class="hexTop"></div><p>8 Field</p><div class="hexBottom"></div></div>
     </div>
     <div class="row">
-        <div class="hexagon"><p>8 Hill</p></div>
-        <div class="hexagon"><p>10 Pasture</p></div>
-        <div class="hexagon"><p>9 Pasture</p></div>
-        <div class="hexagon"><p>3 Mountain</p></div>
+        <div class="hexagon hill"><div class="hexTop"></div><p>8 Hill</p><div class="hexBottom"></div></div>
+        <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
+        <div class="hexagon pasture"><div class="hexTop"></div><p>9 Pasture</p><div class="hexBottom"></div></div>
+        <div class="hexagon mountain"><div class="hexTop"></div><p>3 Mountain</p><div class="hexBottom"></div></div>
     </div>
     <div class="row">
-        <div class="hexagon"><p>5 Mountain</p></div>
-        <div class="hexagon"><p>2 Field</p></div>
-        <div class="hexagon"><p>6 Forest</p></div>
+        <div class="hexagon mountain"><div class="hexTop"></div><p>5 Mountain</p><div class="hexBottom"></div></div>
+        <div class="hexagon field"><div class="hexTop"></div><p>2 Field</p><div class="hexBottom"></div></div>
+        <div class="hexagon forest"><div class="hexTop"></div><p>6 Forest</p><div class="hexBottom"></div></div>
     </div>
     <div class="settlement_overlay">
         <div class="row">
@@ -404,8 +408,13 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
-                        currCircle.addClass('player1')
-                        $(".player_info").html(serverResponse)
+                        var parsedResponse = JSON.parse(serverResponse)
+                        console.log(parsedResponse)
+                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        $(".player_info").html(playerInfo)
+                        if (parsedResponse.success === true) {
+                            currCircle.addClass('player1')
+                        }
                     }
                 })
             });
@@ -417,8 +426,14 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
-                        currTrack.addClass('player1')
-                        $(".player_info").html(serverResponse)
+                        var parsedResponse = JSON.parse(serverResponse)
+                        console.log(parsedResponse)
+                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        $(".player_info").html(playerInfo)
+                        if (parsedResponse.success === true) {
+                            currTrack.addClass('player1')
+                        }
+                        console.log(serverResponse)
                     }
                 })
             });
@@ -429,10 +444,30 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
-                        console.log("rolled dice")
-                        $(".player_info").html(serverResponse)
+                        var parsedResponse = JSON.parse(serverResponse)
+                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        $(".player_info").html(playerInfo)
+                        let message = ""
+                        for (let i = 0; i < parsedResponse.log.length; i++) {
+                            message += "<p>"
+                            message += parsedResponse.log[i]
+                            message += "</p>"
+                        }
+                        $(".log").prepend(message)
+
+                        $(".circle").each(function(){
+                            if (parsedResponse.settlements[$(this).data("id")]) {
+                                $(this).addClass("player1")
+                            }
+                        });
+
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")]) {
+                                $(this).addClass("player1")
+                            };
+                        });
                     }
-                })
+                });
                 return false
             })
 
