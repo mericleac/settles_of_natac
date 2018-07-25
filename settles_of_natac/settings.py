@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'apps.login_reg_lobby',
     'apps.main_game',
     'apps.trading',
+    'apps.setup',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
