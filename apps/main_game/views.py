@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+import json
 
 def index(request):
     if 'log' not in request.session:
@@ -22,6 +23,107 @@ def roll_dice(request):
             log.append('alloting resources for: ' + str(field.number) + " " + field.resource)
             messages = field.distribute_resources()
             if messages:
-                log.append(*messages)
+                for message in messages:
+                    log.append(message)
     request.session['log'] = log
-    return redirect('/game')
+    player = Player.objects.last()
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    context = {
+        "player": player,
+        "roads": roads,
+        "settlements": settlements
+    }
+    return render(request, "main_game/circle.html", context)
+
+def purchase_settlement (request, settlement_id):
+    # replace with current player
+    settlement = Settlement.objects.get(id= settlement_id)
+    player = Player.objects.last()
+    settlement = Settlement.objects.get(id= int(settlement_id))
+    curr_settlement = settlement.id
+    errors = settlement.purchase_settlement(player, False)
+    if len(errors) == 0:
+        player.brick -= 1
+        player.lumber -= 1
+        player.sheep -= 1
+        player.wheat -= 1
+        player.vic_points += 1
+        player.save()
+        settlement.player = player
+        settlement.save()
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        context = {
+            "player": player,
+            "roads": roads,
+            "settlements": settlements,
+            "curr_settlement": 5
+        }
+        return render(request, "main_game/circle.html", context)
+    else:
+        request.session['errors'] = errors
+        print(*errors)
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        settlement = Settlement.objects.get(id= int(settlement_id))
+        context = {
+            "player": player,
+            "roads": roads,
+            "settlements": settlements,
+            "curr_settlement": 5
+        }
+        return render(request, "main_game/circle.html", context)
+
+def purchase_road (request, road_id):
+    # replace with current player
+    player = Player.objects.last()
+    road = Road.objects.get(id = int(road_id))
+    errors = road.purchase_road(player)
+    print(errors)
+    if len(errors) == 0:
+        player.brick -= 1
+        player.lumber -= 1
+        player.save()
+        road.player = player
+        road.save()
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        context = {
+            "player": player,
+            "roads": roads,
+            "settlements": settlements
+        }
+        return render(request, "main_game/circle.html", context)
+    else:
+        request.session['errors'] = errors
+        print(*errors)
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        context = {
+            "player": player,
+            "roads": roads,
+            "settlements": settlements
+        }
+        return render(request, "main_game/circle.html", context)
+
+def resources(request):
+    player = Player.objects.last()
+    player.brick = 20
+    player.wheat = 20
+    player.ore = 20
+    player.sheep = 20
+    player.lumber = 20
+    player.save()
+    return redirect("/game")
+
+def clear(request):
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    for road in roads:
+        road.player = None
+        road.save()
+    for settlement in settlements:
+        settlement.player = None
+        settlement.save()
+    return redirect("/game")
