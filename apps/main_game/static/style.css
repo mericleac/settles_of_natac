@@ -34,9 +34,9 @@ body {
     position: absolute;
     width: 146.0000px;
     height: 84.29313930168537px;
-    -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-40.1466px);
-    -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-40.1466px);
-    transform:          rotate(45deg) scaleY(1.7321) translateY(-40.1466px);
+    -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-23.1466px) translateX(-36px);
+    -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-23.1466px) translateX(-36px);
+    transform:          rotate(45deg) scaleY(1.7321) translateY(-23.1466px) translateX(-36px);
     -webkit-transform-origin: 0 0;
     -ms-transform-origin: 0 0;
     transform-origin: 0 0;
@@ -169,6 +169,15 @@ p {
 .player1 {
     background-color: rgba(255, 0, 0, 1);
 }
+.player2 {
+    background-color: rgba(255, 255, 0, 1)
+}
+.player3 {
+    background-color: rgba(0, 255, 0, 1)
+}
+.player4 {
+    background-color: rgba(0, 0, 255, 1);
+}
 .player_stats {
     position: absolute;
     top: 0;
@@ -177,7 +186,6 @@ p {
     border-radius: 30px;
     width: 20%;
     height: fit-content;
-    display: none;
 }
 .player_tab {
     transform: rotate(90deg);
