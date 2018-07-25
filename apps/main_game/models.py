@@ -24,6 +24,8 @@ class Field(models.Model):
                     log.append("Alloting resources to " + player.name + "'s settlement.")
                     player.__dict__[str(self.resource)] += 1
                     player.save()
+        print("*"*100)
+        print(log)
         return log
 
 # I don't think we need this, we can just set up a direct relationship between fields and settlements
