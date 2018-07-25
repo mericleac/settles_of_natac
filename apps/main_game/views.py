@@ -5,8 +5,9 @@ import json
 def index(request):
     if 'log' not in request.session:
         request.session['log'] = []
-    return render(request, "main_game/index.html", { 'player': Player.objects.last(), 'log': request.session['log'] })
-
+    players = request.session['player']
+    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'] })
+    
 def roll_dice(request):
     log = request.session['log']
     from random import randint
@@ -26,7 +27,7 @@ def roll_dice(request):
                 for message in messages:
                     log.append(message)
     request.session['log'] = log
-    player = Player.objects.last()
+    player = Player.objects.get(id=request.session['currPlayer'])
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
     context = {
@@ -34,36 +35,53 @@ def roll_dice(request):
         "roads": roads,
         "settlements": settlements
     }
-    return render(request, "main_game/circle.html", context)
-
+    return render(request, "main_game/info.html", context)
 
 def setup(request):
     request.session['currPlayer'] = request.session['player'][0]
-    return redirect('/game/player_turn')
+    request.session['setup'] = True
+    request.session['setup_round'] = 1
+    request.session['sett_or_road'] = "settlement"
+    print(request.session['setup'])
+    return redirect('/game')
 
 def player_turn(request):
     print(request.session['player'])
     print(request.session['currPlayer'])
     for i in range(len(request.session['player'])):
         if request.session['player'][i] == request.session['currPlayer']:
-            #print('player at i:', request.session['player'][i], 'current player:', request.session['currPlayer'])
+            print('player at i:', request.session['player'][i], 'current player:', request.session['currPlayer'])
             break
-    #print("i is: ", i)
+    print("i is: ", i)
     if i == len(request.session['player']) - 1:
         request.session['currPlayer'] = request.session['player'][0]
-        #print('current player is now:', request.session['currPlayer'])
+        print('current player is now:', request.session['currPlayer'])
     else:
         i += 1
         request.session['currPlayer'] = request.session['player'][i]
-        #print('current player is now:', request.session['currPlayer'])
-    return redirect('/game')
+        print('current player is now:', request.session['currPlayer'])
+    curr_player = Player.objects.get(id=request.session['currPlayer'])
+    context = {
+        'player': curr_player
+    }
+    print("The current player is now "+context['player'].name)
+    return render(request, "main_game/info.html", context)
+
+def settlement(request, settlement_id):
+    if request.session['setup'] == True:
+        if request.session['sett_or_road'] == "settlement":
+            return redirect('/setup/setup_settlementr1/'+settlement_id)
+        else:
+            print("Now is not the time to build a settlement!")
+            return render(request, 'main_game/info.html')
+    else:
+        print("there")
+        return redirect('/game/purchase_settlement/'+settlement_id)
 
 def purchase_settlement (request, settlement_id):
-    # replace with current player
     settlement = Settlement.objects.get(id= settlement_id)
-    player = Player.objects.last()
+    player = Player.objects.get(id=request.session['currPlayer'])
     settlement = Settlement.objects.get(id= int(settlement_id))
-    curr_settlement = settlement.id
     errors = settlement.purchase_settlement(player, False)
     if len(errors) == 0:
         player.brick -= 1
@@ -82,7 +100,7 @@ def purchase_settlement (request, settlement_id):
             "settlements": settlements,
             "curr_settlement": 5
         }
-        return render(request, "main_game/circle.html", context)
+        return render(request, "main_game/info.html", context)
     else:
         request.session['errors'] = errors
         print(*errors)
@@ -95,11 +113,21 @@ def purchase_settlement (request, settlement_id):
             "settlements": settlements,
             "curr_settlement": 5
         }
-        return render(request, "main_game/circle.html", context)
+        return render(request, "main_game/info.html", context)
+
+def road(request, road_id):
+    if request.session['setup'] == True:
+        if request.session['sett_or_road'] == "road":
+            return redirect('/setup/setup_roadr1/'+road_id)
+        else:
+            print("Now is not the time to build a road!")
+            return render(request, 'main_game/info.html')
+    else:
+        print("there")
+        return redirect('/game/purchase_settlement/'+settlement_id)
 
 def purchase_road (request, road_id):
-    # replace with current player
-    player = Player.objects.last()
+    player = Player.objects.get(id=request.session['currPlayer'])
     road = Road.objects.get(id = int(road_id))
     errors = road.purchase_road(player)
     print(errors)
@@ -116,7 +144,7 @@ def purchase_road (request, road_id):
             "roads": roads,
             "settlements": settlements
         }
-        return render(request, "main_game/circle.html", context)
+        return render(request, "main_game/info.html", context)
     else:
         request.session['errors'] = errors
         print(*errors)
@@ -127,10 +155,10 @@ def purchase_road (request, road_id):
             "roads": roads,
             "settlements": settlements
         }
-        return render(request, "main_game/circle.html", context)
+        return render(request, "main_game/info.html", context)
 
 def resources(request):
-    player = Player.objects.last()
+    player = Player.objects.get(id=request.session['currPlayer'])
     player.brick = 20
     player.wheat = 20
     player.ore = 20

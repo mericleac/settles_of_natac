@@ -142,7 +142,8 @@
         .log {
             width: 50%;
             margin: 0px auto;
-            overflow: auto;
+            overflow: hidden;
+            height: 400px;
         }
     </style>
 </head>
@@ -344,6 +345,11 @@
     </form>
         <!--<a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a>-->
         <button id="dice" class="btn btn-primary">Roll dice!</button>
+        <form action="/game/end_turn" id="end_form">
+            {% csrf_token %}
+            <button id="end_turn" class="btn btn-danger">End turn</button>
+        </form>
+        
 
         <div class="player_info">
             <div class="player_tab player1">{{ player.name }}</div>
@@ -394,7 +400,7 @@
             $(".circle").click(function(){
                 var currCircle = $(this)
                 $.ajax({
-                    url: '/game/purchase_settlement/' + $(this).data("id"),
+                    url: '/game/settlement/' + $(this).data("id"),
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
@@ -407,7 +413,7 @@
             $(".track").click(function(){
                 var currTrack = $(this)
                 $.ajax({
-                    url: '/game/purchase_road/' + $(this).data("id"),
+                    url: '/game/road/' + $(this).data("id"),
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
@@ -418,13 +424,25 @@
             });
 
             $("#dice").click(function(){
-                console.log("rolling dice")
                 $.ajax({
                     url: '/game/roll_dice',
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
                         console.log("rolled dice")
+                        $(".player_info").html(serverResponse)
+                    }
+                })
+                return false
+            })
+
+            $("#end_turn").click(function(){
+                $.ajax({
+                    url: '/game/end_turn',
+                    method: 'post',
+                    data: $('#end_form').serialize(),
+                    success: function(serverResponse){
+                        console.log("ended turn")
                         $(".player_info").html(serverResponse)
                     }
                 })

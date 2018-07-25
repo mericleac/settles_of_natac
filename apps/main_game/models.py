@@ -62,6 +62,19 @@ class Settlement(models.Model):
             errors.append("You may only build a settlement if the intersection adjacent to it are vacant!")
         return errors
 
+    def setup_settlement(self, player, city):
+        errors = []
+        if self.player != None:
+            errors.append("That settlement is already owned!")
+        spaced_out = True
+        for road in self.adjacent_roads.all():
+            for settlement in road.adjacent_settlements.all():
+                if settlement.player != None:
+                    spaced_out = False
+        if spaced_out == False:
+            errors.append("You may only build a settlement if the intersection adjacent to it are vacant!")
+        return errors
+
     player = models.ForeignKey(Player, related_name = "settlements", default=None, null=True)
     # added rank field in order to consolidate settlements and cities
     rank = models.CharField(max_length = 45, default="normal")

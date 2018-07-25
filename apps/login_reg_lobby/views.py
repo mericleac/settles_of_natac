@@ -72,8 +72,6 @@ def lobby(request):
     return render(request, 'login_html/lobby.html')
 
 def lobbyReg(request):
-    print("*"*80)
-    print("did i even make it here")
     errors = Player.objects.validator(request.POST)
     if len(errors):
         print("*"*80)
@@ -111,7 +109,7 @@ def lobbyReg(request):
             request.session['player'].append(p2.id)
         if request.POST['player3Name']:
             p3 = Player.objects.create(
-                name=request.POST['player2Name'], 
+                name=request.POST['player3Name'], 
                 vic_points=0, 
                 wheat=0, 
                 ore=0, 
@@ -123,7 +121,7 @@ def lobbyReg(request):
             request.session['player'].append(p3.id)
         if request.POST['player4Name']:
             p4 = Player.objects.create(
-                name=request.POST['player2Name'], 
+                name=request.POST['player4Name'], 
                 vic_points=0, 
                 wheat=0, 
                 ore=0, 
