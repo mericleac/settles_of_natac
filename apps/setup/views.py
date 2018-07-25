@@ -33,6 +33,11 @@ def end_turn(request):
         request.session['currPlayer'] = player+1
         print(request.session['currPlayer'])
     elif request.session['setup_round'] == 2:
-        request.session['currPlayer'] = player-1
+        if request.session['currPlayer'] != players[0]:
+            request.session['currPlayer'] = player-1
+        else:
+            request.session['setup'] = False
+            print("Ending setup")
+            return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})
     print(request.session['currPlayer'])
     return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})

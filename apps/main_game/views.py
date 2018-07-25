@@ -124,7 +124,7 @@ def road(request, road_id):
             return render(request, 'main_game/info.html')
     else:
         print("there")
-        return redirect('/game/purchase_settlement/'+settlement_id)
+        return redirect('/game/purchase_road/'+road_id)
 
 def purchase_road (request, road_id):
     player = Player.objects.get(id=request.session['currPlayer'])
