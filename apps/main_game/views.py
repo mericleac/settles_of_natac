@@ -80,10 +80,18 @@ def player_turn(request):
         print('current player is now:', request.session['currPlayer'])
     curr_player = Player.objects.get(id=request.session['currPlayer'])
     context = {
-        'player': curr_player
+        "player_info": {
+            "name": curr_player.name,
+            "brick": curr_player.brick,
+            "sheep": curr_player.sheep,
+            "ore": curr_player.ore,
+            "wheat": curr_player.wheat,
+            "lumber": curr_player.lumber,
+            "vic_points": curr_player.vic_points,
+        }
     }
     print("The current player is now "+context['player'].name)
-    return render(request, "main_game/info.html", context)
+    return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
     if request.session['setup'] == True:
@@ -130,7 +138,7 @@ def purchase_settlement (request, settlement_id):
             # "player_owned_settlements": Settlement.objects.filter(player=player),
             "success": True
         }
-        return render(request, "main_game/info.html", context)
+        return JsonResponse(json.dumps(context), safe = False)
     else:
         request.session['errors'] = errors
         print(*errors)
