@@ -72,8 +72,6 @@ def lobby(request):
     return render(request, 'login_html/lobby.html')
 
 def lobbyReg(request):
-    print("*"*80)
-    print("did i even make it here")
     errors = Player.objects.validator(request.POST)
     if len(errors):
         print("*"*80)

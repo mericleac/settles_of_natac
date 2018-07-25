@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^', include("apps.login_reg_lobby.urls")),
     url(r'^game', include("apps.main_game.urls")),
     url(r'^trading', include("apps.trading.urls")),
+    url(r'^setup', include("apps.setup.urls")),
 ]
