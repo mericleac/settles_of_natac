@@ -5,7 +5,7 @@
     <title>Index</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css' />
+    <!--<link rel='stylesheet' type='text/css' media='screen' href='style.css' />-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
     <style>
@@ -147,6 +147,8 @@
     </style>
 </head>
 <body>
+    <form id="form" action="/game">
+        {% csrf_token %}
     <div class="row">
         <div class="hexagon"><p>11 Forest</p></div>
         <div class="hexagon"><p>12 Pasture</p></div>
@@ -339,7 +341,9 @@
             <div class="track"></div> 
             <div class="track"></div> 
         </div>
-        <a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a>
+    </form>
+        <!--<a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a>-->
+        <button id="dice" class="btn btn-primary">Roll dice!</button>
 
         <div class="player_info">
             <div class="player_tab player1">{{ player.name }}</div>
@@ -353,16 +357,15 @@
                 <p>Victory Points: {{ player.vic_points }}</p>
             </div>
         </div>
-
+        <a href="/game/resources">Free stuff here</a>
         <div class="log">
             {% for message in log reversed %}
                 <p>{{ message }}</p>
             {% endfor %}
         </div>
-
+        
     </div>
-
-    <script>
+    <script type="text/javascript">
         $('document').ready(function(){
 
             // add id data to each settlement
@@ -389,17 +392,44 @@
             });
 
             $(".circle").click(function(){
-                route = "/game/purchase_settlement/" + $(this).data("id")
-                window.location.href = route
-                // gives a background color of red
-                $(this).addClass("player1");
+                var currCircle = $(this)
+                $.ajax({
+                    url: '/game/purchase_settlement/' + $(this).data("id"),
+                    method: 'post',
+                    data: $('#form').serialize(),
+                    success: function(serverResponse){
+                        currCircle.addClass('player1')
+                        $(".player_info").html(serverResponse)
+                    }
+                })
             });
 
             $(".track").click(function(){
-                route = "/game/purchase_road/" + $(this).data("id")
-                window.location.href = route
-                $(this).addClass("player1");
+                var currTrack = $(this)
+                $.ajax({
+                    url: '/game/purchase_road/' + $(this).data("id"),
+                    method: 'post',
+                    data: $('#form').serialize(),
+                    success: function(serverResponse){
+                        currTrack.addClass('player1')
+                        $(".player_info").html(serverResponse)
+                    }
+                })
             });
+
+            $("#dice").click(function(){
+                console.log("rolling dice")
+                $.ajax({
+                    url: '/game/roll_dice',
+                    method: 'post',
+                    data: $('#form').serialize(),
+                    success: function(serverResponse){
+                        console.log("rolled dice")
+                        $(".player_info").html(serverResponse)
+                    }
+                })
+                return false
+            })
 
             $(".player_info").click(function(){
                 $(".player_stats").toggle("slide", { direction: "left", easing: "linear" });
