@@ -8,6 +8,7 @@ def index(request):
 
 def roll_dice(request):
     log = request.session['log']
+    print(log)
     from random import randint
     die1 = randint(1, 6)
     log.append('first dice was: ' + str(die1))

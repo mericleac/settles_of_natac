@@ -1,7 +1,4 @@
 .vs/
 *.pyc
 .vscode/
-<<<<<<< HEAD
-=======
 db.sqlite3
->>>>>>> dbfcc1eae07655a23d2cda1dc12c65fd5039ec05
