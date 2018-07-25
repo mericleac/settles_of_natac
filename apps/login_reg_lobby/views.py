@@ -111,7 +111,7 @@ def lobbyReg(request):
             request.session['player'].append(p2.id)
         if request.POST['player3Name']:
             p3 = Player.objects.create(
-                name=request.POST['player2Name'], 
+                name=request.POST['player3Name'], 
                 vic_points=0, 
                 wheat=0, 
                 ore=0, 
@@ -123,7 +123,7 @@ def lobbyReg(request):
             request.session['player'].append(p3.id)
         if request.POST['player4Name']:
             p4 = Player.objects.create(
-                name=request.POST['player2Name'], 
+                name=request.POST['player4Name'], 
                 vic_points=0, 
                 wheat=0, 
                 ore=0, 
