@@ -191,7 +191,7 @@ def road(request, road_id):
                 "errors": ["Now is not the time to build a road!"]
             }
             print("Now is not the time to build a road!")
-            return render(request, 'main_game/info.html')
+            return JsonResponse(json.dumps(context), safe = False)
     else:
         print("there")
         return redirect('/game/purchase_road/'+road_id)
@@ -261,12 +261,16 @@ def resources(request):
 def clear(request):
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
+    players = Player.objects.all()
     for road in roads:
         road.player = None
         road.save()
     for settlement in settlements:
         settlement.player = None
         settlement.save()
+    for player in players:
+        player.vic_points = 0
+        player.save()
     return redirect("/game")
 
 def initialize_db(request):
