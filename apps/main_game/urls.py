@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'end_turn', views.player_turn),
     url(r'resources', views.resources),
     url(r'clear', views.clear),
+    url(r'victory/(?P<player_id>\d+)', views.victory)
 ]

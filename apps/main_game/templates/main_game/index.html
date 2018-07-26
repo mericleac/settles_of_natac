@@ -12,111 +12,111 @@
 </head>
 <body>
     <div class="alert alert-danger" role="alert" style="display: none;"></div>
+    <div class="alert alert-primary" role="alert" style="display: none;"></div>
     <form id="form" action="/game">
         {% csrf_token %}
         <div id="board">
             <div class="row">
                 <div class="hexagon forest">
                     <div class="hexTop"></div>
-                    <p>11 Forest</p>
+                    <p>11</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon pasture">
                     <div class="hexTop"></div>
-                    <p>12 Pasture</p>
+                    <p>12</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon field">
                     <div class="hexTop"></div>
-                    <p>9 Field</p>
+                    <p>9</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="hexagon hill">
                     <div class="hexTop"></div>
-                    <p>4 Hill</p>
+                    <p>4</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon mountain">
                     <div class="hexTop"></div>
-                    <p>6 Mountain</p>
+                    <p>6</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon hill">
                     <div class="hexTop"></div>
-                    <p>5 Hill</p>
+                    <p>5</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon pasture">
                     <div class="hexTop"></div>
-                    <p>10 Pasture</p>
+                    <p>10</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="hexagon desert">
                     <div class="hexTop"></div>
-                    <p>Desert</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon forest">
                     <div class="hexTop"></div>
-                    <p>3 Forest</p>
+                    <p>3</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon field">
                     <div class="hexTop"></div>
-                    <p>11 Field</p>
+                    <p>11</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon forest">
                     <div class="hexTop"></div>
-                    <p>4 Forest</p>
+                    <p>4</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon field">
                     <div class="hexTop"></div>
-                    <p>8 Field</p>
+                    <p>8</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="hexagon hill">
                     <div class="hexTop"></div>
-                    <p>8 Hill</p>
+                    <p>8</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon pasture">
                     <div class="hexTop"></div>
-                    <p>10 Pasture</p>
+                    <p>10</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon pasture">
                     <div class="hexTop"></div>
-                    <p>9 Pasture</p>
+                    <p>9</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon mountain">
                     <div class="hexTop"></div>
-                    <p>3 Mountain</p>
+                    <p>3</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="hexagon mountain">
                     <div class="hexTop"></div>
-                    <p>5 Mountain</p>
+                    <p>5</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon field">
                     <div class="hexTop"></div>
-                    <p>2 Field</p>
+                    <p>2</p>
                     <div class="hexBottom"></div>
                 </div>
                 <div class="hexagon forest">
                     <div class="hexTop"></div>
-                    <p>6 Forest</p>
+                    <p>6</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
@@ -349,7 +349,8 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
-                        //console.log(serverResponse)
+                        $(".alert-danger").hide();
+                        console.log(serverResponse)
                         var parsedResponse = JSON.parse(serverResponse)
                         //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
@@ -358,6 +359,9 @@
                         $(".player_tab").addClass("player" + curr_player)
                         if (parsedResponse.success === true) {
                             currCircle.addClass('player' + curr_player)
+                            if (parsedResponse.city === true) {
+                                currCircle.addClass("city")
+                            }
                         }
                         else {
                             error_message = "";
@@ -367,21 +371,23 @@
                                 error_message += parsedResponse.errors[i];
                                 error_message += "</p>";                              
                             }
-                            $(".alert").html(error_message);
-                            $(".alert").show();
+                            $(".alert-danger").html(error_message);
+                            $(".alert-danger").show();
                         }
-                    //     $(".circle").each(function(){
-                    //         if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                    //             //console.log(parsedResponse.settlements[$(this).data("id")])
-                    //             $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                    //         }
-                    //     });
+                        $(".circle").each(function(){
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                //console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                    //     $(".track").each(function(){
-                    //         if (parsedResponse.roads[$(this).data("id")] !== false) {
-                    //             $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                    //         };
-                    //     });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                     }
                 })
             });
@@ -393,6 +399,7 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
+                        $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
                         //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
@@ -410,22 +417,24 @@
                                 error_message += parsedResponse.errors[i];
                                 error_message += "</p>";                              
                             }
-                            $(".alert").html(error_message);
-                            $(".alert").show();
+                            $(".alert-danger").html(error_message);
+                            $(".alert-danger").show();
                         }
-                        // $(".circle").each(function(){
-                        //     console.log(parsedResponse)
-                        //     if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                        //         console.log(parsedResponse.settlements[$(this).data("id")])
-                        //         $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                        //     }
-                        // });
+                        $(".circle").each(function(){
+                            console.log(parsedResponse)
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                        // $(".track").each(function(){
-                        //     if (parsedResponse.roads[$(this).data("id")] !== false) {
-                        //         $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                        //     };
-                        // });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                         //console.log(serverResponse)
                     }
                 })
@@ -438,7 +447,8 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
-                        //console.log("dice rolled")
+                        $(".alert-danger").hide();
+                        console.log("dice rolled")
                         var parsedResponse = JSON.parse(serverResponse)
                         //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
@@ -489,18 +499,19 @@
                     method: 'post',
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
-                        //console.log("ended turn")
-                        $('#trading').html(serverResponse)
-                        //console.log("ended turn")
-                        let parsedResponse = JSON.parse(serverResponse)
-                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
-                        $(".player_info").html(playerInfo)
-                        curr_player = parsedResponse.curr_player;
-                        //console.log("player" + curr_player);
-                        let player = "player" + curr_player;
-                        $(".player_stats").addClass("player" + curr_player)
-                        $(".player_tab").addClass("player" + curr_player)
-                  
+                        if (typeof serverResponse == 'object'){
+                            $(".alert-danger").hide();
+                            let parsedResponse = JSON.parse(serverResponse)
+                            var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                            $(".player_info").html(playerInfo)
+                            curr_player = parsedResponse.curr_player;
+                            let player = "player" + curr_player;
+                            $(".player_stats").addClass("player" + curr_player)
+                            $(".player_tab").addClass("player" + curr_player)
+                        }
+                        else {
+                            $('body').html(serverResponse)
+                        }
                     }
                 })
                 return false

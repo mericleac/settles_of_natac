@@ -18,6 +18,16 @@ body {
     border-right: solid 2px #333333;
 }
 
+.hexagon p {
+    font-size: 30px;
+    background-color: wheat;
+    width: 50px;
+    border-radius: 50%;
+    border: 2px solid black;
+    height: 50px;
+    margin: 10px auto;
+}
+
 .hexTop,
 .hexBottom {
     position: absolute;
@@ -234,4 +244,8 @@ p {
     position: absolute;
     left: 60px;
     top: 680px; 
+}
+
+.city {
+    border: 2px solid black;
 }

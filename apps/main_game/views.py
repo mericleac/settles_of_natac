@@ -63,13 +63,12 @@ def setup(request):
     return redirect('/game')
 
 def player_turn(request):
-    print(request.session['player'])
-    print(request.session['currPlayer'])
     for i in range(len(request.session['player'])):
         if request.session['player'][i] == request.session['currPlayer']:
-            print('player at i:', request.session['player'][i], 'current player:', request.session['currPlayer'])
             break
-    print("i is: ", i)
+    player = Player.objects.get(id=request.session['currPlayer'])
+    if player.vic_points >= 10:
+        return redirect("/game/victory/" + str(request.session['currPlayer']))
     if i == len(request.session['player']) - 1:
         i = 0
         request.session['currPlayer'] = request.session['player'][i]
@@ -131,16 +130,30 @@ def purchase_settlement (request, settlement_id):
     settlement = Settlement.objects.get(id= settlement_id)
     player = Player.objects.get(id=request.session['currPlayer'])
     settlement = Settlement.objects.get(id= int(settlement_id))
-    errors = settlement.purchase_settlement(player, False)
+    if settlement.player == player and settlement.rank == "normal":
+        city = True
+        errors = settlement.purchase_settlement(player, True)
+    elif settlement.player != player:
+        city = False
+        errors = settlement.purchase_settlement(player, False)
+    else:
+        errors = ["You can only upgrade a settlement once!"]
     if len(errors) == 0:
-        player.brick -= 1
-        player.lumber -= 1
-        player.sheep -= 1
-        player.wheat -= 1
-        player.vic_points += 1
-        player.save()
-        settlement.player = player
-        settlement.save()
+        if city == False:
+            player.brick -= 1
+            player.lumber -= 1
+            player.sheep -= 1
+            player.wheat -= 1
+            player.vic_points += 1
+            player.save()
+            settlement.player = player
+            settlement.save()
+        else: 
+            player.ore -= 3
+            player.wheat -= 2
+            player.save()
+            settlement.rank = "city"
+            settlement.save()
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         context = {
@@ -153,6 +166,7 @@ def purchase_settlement (request, settlement_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
+            "city": city,
             "success": True
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -197,7 +211,11 @@ def road(request, road_id):
                 "errors": ["Now is not the time to build a road!"]
             }
             print("Now is not the time to build a road!")
+<<<<<<< HEAD
+            return JsonResponse(json.dumps(context), safe=False)
+=======
             return JsonResponse(json.dumps(context), safe = False)
+>>>>>>> bd55edbd831f001f70e3d16e25078124912fff9e
     else:
         print("there")
         return redirect('/game/purchase_road/'+road_id)
@@ -225,9 +243,6 @@ def purchase_road (request, road_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
-            # "player": player,
-            # "roads": roads,
-            # "settlements": settlements
             "success": True
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -247,9 +262,6 @@ def purchase_road (request, road_id):
                 "vic_points": player.vic_points,
             },
             'errors': errors,
-            # "player": player,
-            # "roads": roads,
-            # "settlements": settlements
             "success": False
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -278,6 +290,10 @@ def clear(request):
         player.vic_points = 0
         player.save()
     return redirect("/game")
+
+def victory (request, player_id):
+    player = Player.objects.get(id = int(player_id))
+    return render(request, "main_game/victory.html", { "Victor": player })
 
 def initialize_db(request):
     Field.objects.create(resource = 'lumber', robber=False, number = 11)
