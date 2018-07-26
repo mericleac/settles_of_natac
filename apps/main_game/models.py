@@ -24,18 +24,7 @@ class Field(models.Model):
                     log.append("Alloting resources to " + player.name + "'s settlement.")
                     player.__dict__[str(self.resource)] += 1
                     player.save()
-        print("*"*100)
-        print(log)
         return log
-
-# I don't think we need this, we can just set up a direct relationship between fields and settlements
-# class Vertex(models.Model):
-#     adjacent_fields = models.ManyToManyField(Field, related_name = "adjacent_vertices")
-
-# This can also be a direct relationship between 
-# class Edge(models.Model):
-#     adjacent_fields = models.ManyToManyField(Field, related_name = "adjacent_edges")
-#     adjacent_vertices = models.ManyToManyField(FieldVertex, related_name = "adjacent_edges")
 
 class Settlement(models.Model):
     def is_owned(self):
@@ -81,16 +70,8 @@ class Settlement(models.Model):
         return errors
 
     player = models.ForeignKey(Player, related_name = "settlements", default=None, null=True)
-    # added rank field in order to consolidate settlements and cities
     rank = models.CharField(max_length = 45, default="normal")
-    # changed this relationship to be with fields instead
     adjacent_fields = models.ManyToManyField(Field, related_name="adjacent_settlements")
-
-# Cities and settlements can be grouped together if we add a rank field to settlements and set it to "city" if a
-# city is built or a settlement is upgraded
-# class City(models.Model):
-#     player = models.ForeignKey(Player, related_name = "cities")
-#     vertex = models.OneToOneField(Vertex)
 
 class Road(models.Model):
     def is_owned(self):
