@@ -28,6 +28,10 @@ body {
     margin: 10px auto;
 }
 
+.hexagon .desert p {
+    display: none;
+}
+
 .hexTop,
 .hexBottom {
     position: absolute;

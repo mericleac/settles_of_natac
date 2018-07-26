@@ -120,7 +120,6 @@ class Road(models.Model):
         return errors
 
     player = models.ForeignKey(Player, related_name = "roads", default = None, null=True)
-    # changed this relationship to be with fields instead
     adjacent_settlements = models.ManyToManyField(Settlement, related_name="adjacent_roads")
 
 class DevCard(models.Model):
