@@ -22,7 +22,8 @@ def setup_settlementr1(request, settlement_id):
             "wheat": player.wheat,
             "lumber": player.lumber,
             "vic_points": player.vic_points,
-        }
+        },
+        "success": True
     }
     return JsonResponse(json.dumps(context), safe = False)
 

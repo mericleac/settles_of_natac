@@ -92,6 +92,7 @@ def player_turn(request):
     return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
+    #request.session['setup'] = False
     if request.session['setup'] == True:
         if request.session['sett_or_road'] == "settlement":
             return redirect('/setup/setup_settlementr1/'+settlement_id)
@@ -107,7 +108,6 @@ def purchase_settlement (request, settlement_id):
     player = Player.objects.get(id=request.session['currPlayer'])
     settlement = Settlement.objects.get(id= int(settlement_id))
     errors = settlement.purchase_settlement(player, False)
-    json.dumps([1,2,3])
     if len(errors) == 0:
         player.brick -= 1
         player.lumber -= 1
