@@ -60,7 +60,6 @@ def setup(request):
     request.session['setup'] = True
     request.session['setup_round'] = 1
     request.session['sett_or_road'] = "settlement"
-    print(request.session['setup'])
     return redirect('/game')
 
 def player_turn(request):
@@ -90,7 +89,6 @@ def player_turn(request):
             "vic_points": curr_player.vic_points,
         }
     }
-    print("The current player is now "+context['player'].name)
     return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):

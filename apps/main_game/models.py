@@ -98,12 +98,34 @@ class Road(models.Model):
             return False
         else:
             return True
+    def setup_road (self, player, city):
+        errors = []
+        owned_settlement = False
+        for settlement in self.adjacent_settlements.all():
+            if settlement.player == player:
+                owned_settlement = True
+            else:
+                for adjacent_road in settlement.adjacent_roads.all():
+                    if adjacent_road.player == player:
+                        owned_settlement = True
+        if self.player != None:
+            errors.append("That road is already owned!")
+        if owned_settlement == False:
+            errors.append("Your road must be connected to a settlement or road!")
+        print(errors)
+        return errors
     def purchase_road (self, player):
         errors = []
+        owned_settlement = False
+        owned_road = False
+        for settlement in self.adjacent_settlements.all():
+            if settlement.player == player:
+                owned_settlement = True
         if self.player != None:
             errors.append("That road is already owned!")
         if player.brick < 1 or player.lumber < 1:
             errors.append("Not enough resources!")
+        print(errors)
         return errors
 
     player = models.ForeignKey(Player, related_name = "roads", default = None, null=True)
