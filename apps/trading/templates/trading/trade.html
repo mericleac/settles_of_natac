@@ -1,16 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <title></title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="trading/trade.css">
         <style>
-            #wrapper{
+            #wrapper {
                 padding: 15px;
-                background-color: lightgoldenrodyellow;
+                background-color: lightblue;
             }
             #submit{
                 margin: 15px 0px 15px 0px;
+            }
+            #p2{
+                margin-bottom:10px;
             }
             .resource_column{
                 display: inline-block;
@@ -38,6 +40,7 @@
                 {% csrf_token %}
                 <div id="p1">
                     <h3>{{ p1.name }}</h3>
+                    <p>Select amount to give away</p>
                     <div class="resource_column">
                         <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
                         <input type="number" name="p1sheep" min="0" max={{ p1.sheep }} step="1" value="0">
@@ -61,6 +64,8 @@
                 </div>
                 <input id="submit" class="btn btn-success" type="submit" value="Confirm">
                 <div id="p2">
+                    <h3>{{ p2.name }}</h3>
+                    <p>Select amount to give away</p>
                     <div class="resource_column">
                         <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
                         <input type="number" name="p2sheep" min="0" max={{ p2.sheep }} step="1" value="0">
@@ -81,9 +86,10 @@
                         <img src="{% static 'images/lumber.jpg' %}" alt="lumber">
                         <input type="number" name="p2lumber" min="0" max={{ p2.lumber }} step="1" value="0">
                     </div>
-                    <h3>{{ p2.name }}</h3>
+
                 </div>
             </form>
+            <a href="/game">Go back</a>
         </div>
     </body>
 </html>

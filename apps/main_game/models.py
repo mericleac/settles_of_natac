@@ -69,7 +69,7 @@ class Settlement(models.Model):
                 if settlement.player != None:
                     spaced_out = False
         if spaced_out == False:
-            errors.append("You may only build a settlement if the intersection adjacent to it are vacant!")
+            errors.append("You may only build a settlement if the intersections adjacent to it are vacant!")
         return errors
 
     player = models.ForeignKey(Player, related_name = "settlements", default=None, null=True)
@@ -96,7 +96,7 @@ class Road(models.Model):
         if self.player != None:
             errors.append("That road is already owned!")
         if owned_settlement == False:
-            errors.append("Your road must be connected to a settlement or road!")
+            errors.append("Your road must be connected to a settlement or road that you own!")
         print(errors)
         return errors
     def purchase_road (self, player):
@@ -106,10 +106,16 @@ class Road(models.Model):
         for settlement in self.adjacent_settlements.all():
             if settlement.player == player:
                 owned_settlement = True
+            else:
+                for adjacent_road in settlement.adjacent_roads.all():
+                    if adjacent_road.player == player:
+                        owned_settlement = True
         if self.player != None:
             errors.append("That road is already owned!")
         if player.brick < 1 or player.lumber < 1:
             errors.append("Not enough resources!")
+        if owned_settlement == False:
+            errors.append("Your road must be connected to a settlement or road that you own!")
         print(errors)
         return errors
 

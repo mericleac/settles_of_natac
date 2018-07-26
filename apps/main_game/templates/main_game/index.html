@@ -306,12 +306,15 @@
             <p>Victory Points: {{ player.vic_points }}</p>
         </div>
     </div>
+    <div id="trading">
+    </div>
     <a id="free" href="/game/resources">Free stuff here</a>
     <div class="log">
         {% for message in log reversed %}
         <p>{{ message }}</p>
         {% endfor %}
     </div>
+    <button type="button" id="trade" class="btn btn-primary">Trade</button>
     <script type="text/javascript">
         $('document').ready(function(){
             let curr_player = 0;
@@ -346,10 +349,14 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
+<<<<<<< HEAD
                         $(".alert-danger").hide();
                         console.log(serverResponse)
+=======
+                        //console.log(serverResponse)
+>>>>>>> bd55edbd831f001f70e3d16e25078124912fff9e
                         var parsedResponse = JSON.parse(serverResponse)
-                        console.log(parsedResponse)
+                        //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
@@ -363,7 +370,7 @@
                         else {
                             error_message = "";
                             for (let i = 0; i < parsedResponse.errors.length; i++) {
-                                console.log(parsedResponse.errors[i])
+                                //console.log(parsedResponse.errors[i])
                                 error_message += "<p>"
                                 error_message += parsedResponse.errors[i];
                                 error_message += "</p>";                              
@@ -371,6 +378,18 @@
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
+                    //     $(".circle").each(function(){
+                    //         if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                    //             //console.log(parsedResponse.settlements[$(this).data("id")])
+                    //             $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                    //         }
+                    //     });
+
+                    //     $(".track").each(function(){
+                    //         if (parsedResponse.roads[$(this).data("id")] !== false) {
+                    //             $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                    //         };
+                    //     });
                     }
                 })
             });
@@ -384,7 +403,7 @@
                     success: function(serverResponse){
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
-                        console.log(parsedResponse)
+                        //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
@@ -395,7 +414,7 @@
                         else {
                             error_message = "";
                             for (let i = 0; i < parsedResponse.errors.length; i++) {
-                                console.log(parsedResponse.errors[i])
+                                //console.log(parsedResponse.errors[i])
                                 error_message += "<p>"
                                 error_message += parsedResponse.errors[i];
                                 error_message += "</p>";                              
@@ -403,7 +422,20 @@
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
-                        console.log(serverResponse)
+                        // $(".circle").each(function(){
+                        //     console.log(parsedResponse)
+                        //     if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                        //         console.log(parsedResponse.settlements[$(this).data("id")])
+                        //         $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                        //     }
+                        // });
+
+                        // $(".track").each(function(){
+                        //     if (parsedResponse.roads[$(this).data("id")] !== false) {
+                        //         $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                        //     };
+                        // });
+                        //console.log(serverResponse)
                     }
                 })
             });
@@ -418,7 +450,7 @@
                         $(".alert-danger").hide();
                         console.log("dice rolled")
                         var parsedResponse = JSON.parse(serverResponse)
-                        console.log(parsedResponse)
+                        //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
@@ -433,7 +465,7 @@
 
                         $(".circle").each(function(){
                             if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                                console.log(parsedResponse.settlements[$(this).data("id")])
+                                //console.log(parsedResponse.settlements[$(this).data("id")])
                                 $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
@@ -447,6 +479,19 @@
                 });
                 return false
             })
+            $("#trade").click(function(){
+                console.log("dice are trying to roll. CATCH THEM!!!!")
+                $.ajax({
+                    url: '/trading',
+                    method: 'post',
+                    data: $('#form').serialize(),
+                    success: function(serverResponse){
+                        console.log(serverResponse)
+                        $('body').html(serverResponse)
+                    }
+                });
+                return false
+            })
 
             $("#end_turn").click(function(){
                 $.ajax({
@@ -454,6 +499,7 @@
                     method: 'post',
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
+<<<<<<< HEAD
                         if (typeof serverResponse == 'object'){
                             $(".alert-danger").hide();
                             let parsedResponse = JSON.parse(serverResponse)
@@ -467,6 +513,20 @@
                         else {
                             $('body').html(serverResponse)
                         }
+=======
+                        //console.log("ended turn")
+                        //$('#trading').html(serverResponse)
+                        //console.log("ended turn")
+                        let parsedResponse = JSON.parse(serverResponse)
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        $(".player_info").html(playerInfo)
+                        curr_player = parsedResponse.curr_player;
+                        //console.log("player" + curr_player);
+                        let player = "player" + curr_player;
+                        $(".player_stats").addClass("player" + curr_player)
+                        $(".player_tab").addClass("player" + curr_player)
+                  
+>>>>>>> bd55edbd831f001f70e3d16e25078124912fff9e
                     }
                 })
                 return false

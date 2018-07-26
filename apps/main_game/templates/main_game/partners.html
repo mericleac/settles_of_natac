@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="trading">
+        <h4>Trade</h4>
+            {% for each in players %}
+            {% if each.name != currPlayer.name %}
+            <p><a href="/trading/{{each.id}}">{{each.name}}</a></p>
+            {% endif %}
+            {% endfor %}
+
+    </div>
+</body>
+</html>

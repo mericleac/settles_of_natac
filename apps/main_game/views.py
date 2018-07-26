@@ -7,7 +7,7 @@ def index(request):
     if 'log' not in request.session:
         request.session['log'] = []
     players = request.session['player']
-    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'] })
+    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log']})
     
 def roll_dice(request):
     log = []
@@ -79,6 +79,9 @@ def player_turn(request):
         print('current player is now:', request.session['currPlayer'])
     curr_player = Player.objects.get(id=request.session['currPlayer'])
     request.session['player_index'] = i
+    all_players = []
+    for player in request.session['player']:
+        all_players.append(Player.objects.get(id=player))
     context = {
         "player_info": {
             "name": curr_player.name,
@@ -90,12 +93,15 @@ def player_turn(request):
             "vic_points": curr_player.vic_points,
         },
         "curr_player": i,
+        'players':all_players,
+        'currPlayer':curr_player,
     }
     print("The current player is now "+ context['player_info']['name'])
-    return JsonResponse(json.dumps(context), safe = False)
+    print("currPlayer is:", curr_player.name)
+    return render(request, "main_game/partners.html", context)
 
 def settlement(request, settlement_id):
-    request.session['setup'] = False
+    #request.session['setup'] = False
     if request.session['setup'] == True:
         if request.session['sett_or_road'] == "settlement":
             return redirect('/setup/setup_settlementr1/'+settlement_id)
@@ -205,7 +211,11 @@ def road(request, road_id):
                 "errors": ["Now is not the time to build a road!"]
             }
             print("Now is not the time to build a road!")
+<<<<<<< HEAD
             return JsonResponse(json.dumps(context), safe=False)
+=======
+            return JsonResponse(json.dumps(context), safe = False)
+>>>>>>> bd55edbd831f001f70e3d16e25078124912fff9e
     else:
         print("there")
         return redirect('/game/purchase_road/'+road_id)
@@ -269,12 +279,16 @@ def resources(request):
 def clear(request):
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
+    players = Player.objects.all()
     for road in roads:
         road.player = None
         road.save()
     for settlement in settlements:
         settlement.player = None
         settlement.save()
+    for player in players:
+        player.vic_points = 0
+        player.save()
     return redirect("/game")
 
 def victory (request, player_id):
