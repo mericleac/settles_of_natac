@@ -41,7 +41,8 @@ class Player(models.Model):
     lumber = models.IntegerField()
     sheep = models.IntegerField()
     objects = PlayerManager()
-
+    turn_index = models.IntegerField(null=True)
+ 
 class User(models.Model):
     user_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)

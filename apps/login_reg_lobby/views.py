@@ -91,7 +91,8 @@ def lobbyReg(request):
                 ore=0, 
                 brick=0, 
                 lumber=0, 
-                sheep=0
+                sheep=0,
+                turn_index=0
                 )
             p1.save()
             request.session['player'].append(p1.id)
@@ -103,7 +104,8 @@ def lobbyReg(request):
                 ore=0, 
                 brick=0, 
                 lumber=0, 
-                sheep=0
+                sheep=0,
+                turn_index=1,
                 )
             p2.save()
             request.session['player'].append(p2.id)
@@ -115,7 +117,8 @@ def lobbyReg(request):
                 ore=0, 
                 brick=0, 
                 lumber=0, 
-                sheep=0
+                sheep=0,
+                turn_index=2,
                 )
             p3.save()
             request.session['player'].append(p3.id)
@@ -127,7 +130,8 @@ def lobbyReg(request):
                 ore=0, 
                 brick=0, 
                 lumber=0, 
-                sheep=0
+                sheep=0,
+                turn_index=3,
                 )
             p4.save()
             request.session['player'].append(p4.id)

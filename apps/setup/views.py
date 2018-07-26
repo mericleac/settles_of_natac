@@ -5,7 +5,7 @@ import json
 
 def setup_settlementr1(request, settlement_id):
     print("Setting up settlement")
-    settlement = Settlement.objects.get(id=settlement_id)
+    settlement = Settlement.objects.get(id=int(settlement_id))
     player = Player.objects.get(id=request.session['currPlayer'])
     settlement.player = player
     settlement.save()
@@ -21,7 +21,8 @@ def setup_settlementr1(request, settlement_id):
             "wheat": player.wheat,
             "lumber": player.lumber,
             "vic_points": player.vic_points,
-        }
+        },
+        "success": True
     }
     return JsonResponse(json.dumps(context), safe = False)
 
@@ -41,7 +42,8 @@ def setup_roadr1(request, road_id):
             "wheat": player.wheat,
             "lumber": player.lumber,
             "vic_points": player.vic_points,
-        }
+        },
+        "success": True
     }
     return redirect('/setup/end_turn')
 
@@ -60,7 +62,8 @@ def end_turn(request):
             "wheat": currPlayer.wheat,
             "lumber": currPlayer.lumber,
             "vic_points": currPlayer.vic_points,
-        }
+        },
+        "success": True
     }
     if request.session['setup_round'] == 1:
         if player == players[-1]:
@@ -68,7 +71,7 @@ def end_turn(request):
             return JsonResponse(json.dumps(context), safe = False)
         request.session['currPlayer'] = player+1
         print(request.session['currPlayer'])
-    elif request.session['setup_round'] == 2:
+    elif request.session['setup_round'] == 2:   
         if request.session['currPlayer'] != players[0]:
             request.session['currPlayer'] = player-1
         else:

@@ -50,7 +50,7 @@ def roll_dice(request):
         },
         "log": log,
         "settlements": settle_dict,
-        "roads": road_dict
+        "roads": road_dict,
     }
     return JsonResponse(json.dumps(context), safe = False)
 
@@ -72,13 +72,15 @@ def player_turn(request):
             break
     print("i is: ", i)
     if i == len(request.session['player']) - 1:
-        request.session['currPlayer'] = request.session['player'][0]
+        i = 0
+        request.session['currPlayer'] = request.session['player'][i]
         print('current player is now:', request.session['currPlayer'])
     else:
         i += 1
         request.session['currPlayer'] = request.session['player'][i]
         print('current player is now:', request.session['currPlayer'])
     curr_player = Player.objects.get(id=request.session['currPlayer'])
+    request.session['player_index'] = i
     context = {
         "player_info": {
             "name": curr_player.name,
@@ -88,18 +90,34 @@ def player_turn(request):
             "wheat": curr_player.wheat,
             "lumber": curr_player.lumber,
             "vic_points": curr_player.vic_points,
-        }
+        },
+        "curr_player": i,
     }
-    print("The current player is now "+context['player'].name)
+    print("The current player is now "+ context['player_info']['name'])
     return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
+    request.session['setup'] = False
     if request.session['setup'] == True:
         if request.session['sett_or_road'] == "settlement":
             return redirect('/setup/setup_settlementr1/'+settlement_id)
         else:
             print("Now is not the time to build a settlement!")
-            return render(request, 'main_game/info.html')
+            curr_player = Player.objects.get(id=request.session['currPlayer'])
+            context = {
+                "player_info": {
+                    "name": curr_player.name,
+                    "brick": curr_player.brick,
+                    "sheep": curr_player.sheep,
+                    "ore": curr_player.ore,
+                    "wheat": curr_player.wheat,
+                    "lumber": curr_player.lumber,
+                    "vic_points": curr_player.vic_points,
+                },
+                "success": False,
+                "errors": ["Now is not the time to build a settlement!"]
+            }
+            return JsonResponse(json.dumps(context), safe = False)
     else:
         print("there")
         return redirect('/game/purchase_settlement/'+settlement_id)
@@ -131,11 +149,6 @@ def purchase_settlement (request, settlement_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
-            # "player": player,
-            # "roads": roads,
-            # "settlements": settlements,
-            # "curr_settlement": 5,
-            # "player_owned_settlements": Settlement.objects.filter(player=player),
             "success": True
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -155,16 +168,30 @@ def purchase_settlement (request, settlement_id):
                 "vic_points": player.vic_points,
             },
             "errors": errors,
-            "curr_settlement": 5,
             "success": False
         }
         return JsonResponse(json.dumps(context), safe = False)
 
 def road(request, road_id):
+    request.session['setup'] == False
     if request.session['setup'] == True:
         if request.session['sett_or_road'] == "road":
             return redirect('/setup/setup_roadr1/'+road_id)
         else:
+            curr_player = Player.objects.get(id=request.session['currPlayer'])
+            context = {
+                "player_info": {
+                    "name": curr_player.name,
+                    "brick": curr_player.brick,
+                    "sheep": curr_player.sheep,
+                    "ore": curr_player.ore,
+                    "wheat": curr_player.wheat,
+                    "lumber": curr_player.lumber,
+                    "vic_points": curr_player.vic_points,
+                },
+                "success": False,
+                "errors": ["Now is not the time to build a road!"]
+            }
             print("Now is not the time to build a road!")
             return render(request, 'main_game/info.html')
     else:

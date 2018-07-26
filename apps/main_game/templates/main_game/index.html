@@ -14,235 +14,310 @@
     <div class="alert alert-danger" role="alert" style="display: none;"></div>
     <form id="form" action="/game">
         {% csrf_token %}
-    <div id="board">
-        <div class="row">
-            <div class="hexagon forest"><div class="hexTop"></div><p>11 Forest</p><div class="hexBottom"></div></div>
-            <div class="hexagon pasture"><div class="hexTop"></div><p>12 Pasture</p><div class="hexBottom"></div></div>
-            <div class="hexagon field"><div class="hexTop"></div><p>9 Field</p><div class="hexBottom"></div></div>
-        </div>
-        <div class="row">
-            <div class="hexagon hill"><div class="hexTop"></div><p>4 Hill</p><div class="hexBottom"></div></div>
-            <div class="hexagon mountain"><div class="hexTop"></div><p>6 Mountain</p><div class="hexBottom"></div></div>
-            <div class="hexagon hill"><div class="hexTop"></div><p>5 Hill</p><div class="hexBottom"></div></div>
-            <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
-        </div>
-        <div class="row">
-            <div class="hexagon desert"><div class="hexTop"></div><p>Desert</p><div class="hexBottom"></div></div>
-            <div class="hexagon forest"><div class="hexTop"></div><p>3 Forest</p><div class="hexBottom"></div></div>
-            <div class="hexagon field"><div class="hexTop"></div><p>11 Field</p><div class="hexBottom"></div></div>
-            <div class="hexagon forest"><div class="hexTop"></div><p>4 Forest</p><div class="hexBottom"></div></div>
-            <div class="hexagon field"><div class="hexTop"></div><p>8 Field</p><div class="hexBottom"></div></div>
-        </div>
-        <div class="row">
-            <div class="hexagon hill"><div class="hexTop"></div><p>8 Hill</p><div class="hexBottom"></div></div>
-            <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
-            <div class="hexagon pasture"><div class="hexTop"></div><p>9 Pasture</p><div class="hexBottom"></div></div>
-            <div class="hexagon mountain"><div class="hexTop"></div><p>3 Mountain</p><div class="hexBottom"></div></div>
-        </div>
-        <div class="row">
-            <div class="hexagon mountain"><div class="hexTop"></div><p>5 Mountain</p><div class="hexBottom"></div></div>
-            <div class="hexagon field"><div class="hexTop"></div><p>2 Field</p><div class="hexBottom"></div></div>
-            <div class="hexagon forest"><div class="hexTop"></div><p>6 Forest</p><div class="hexBottom"></div></div>
-        </div>
-        <div class="settlement_overlay">
+        <div id="board">
             <div class="row">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+                <div class="hexagon forest">
+                    <div class="hexTop"></div>
+                    <p>11 Forest</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon pasture">
+                    <div class="hexTop"></div>
+                    <p>12 Pasture</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon field">
+                    <div class="hexTop"></div>
+                    <p>9 Field</p>
+                    <div class="hexBottom"></div>
+                </div>
             </div>
             <div class="row">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+                <div class="hexagon hill">
+                    <div class="hexTop"></div>
+                    <p>4 Hill</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon mountain">
+                    <div class="hexTop"></div>
+                    <p>6 Mountain</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon hill">
+                    <div class="hexTop"></div>
+                    <p>5 Hill</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon pasture">
+                    <div class="hexTop"></div>
+                    <p>10 Pasture</p>
+                    <div class="hexBottom"></div>
+                </div>
             </div>
             <div class="row">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+                <div class="hexagon desert">
+                    <div class="hexTop"></div>
+                    <p>Desert</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon forest">
+                    <div class="hexTop"></div>
+                    <p>3 Forest</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon field">
+                    <div class="hexTop"></div>
+                    <p>11 Field</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon forest">
+                    <div class="hexTop"></div>
+                    <p>4 Forest</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon field">
+                    <div class="hexTop"></div>
+                    <p>8 Field</p>
+                    <div class="hexBottom"></div>
+                </div>
             </div>
-            <div class="row bottom">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+            <div class="row">
+                <div class="hexagon hill">
+                    <div class="hexTop"></div>
+                    <p>8 Hill</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon pasture">
+                    <div class="hexTop"></div>
+                    <p>10 Pasture</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon pasture">
+                    <div class="hexTop"></div>
+                    <p>9 Pasture</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon mountain">
+                    <div class="hexTop"></div>
+                    <p>3 Mountain</p>
+                    <div class="hexBottom"></div>
+                </div>
             </div>
-            <div class="row bottom">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+            <div class="row">
+                <div class="hexagon mountain">
+                    <div class="hexTop"></div>
+                    <p>5 Mountain</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon field">
+                    <div class="hexTop"></div>
+                    <p>2 Field</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon forest">
+                    <div class="hexTop"></div>
+                    <p>6 Forest</p>
+                    <div class="hexBottom"></div>
+                </div>
             </div>
-            <div class="row bottom">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+            <div class="settlement_overlay">
+                <div class="row">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="row">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="row">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="row bottom">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="row bottom">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="row bottom">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="track-overlay">
+                <div class="row hextop">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexmiddle">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hextop">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexmiddle">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hextop">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexmiddle">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexbottom">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexmiddle">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexbottom">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexmiddle">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
+                <div class="row hexbottom">
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                    <div class="track"></div>
+                </div>
             </div>
         </div>
-        <div class="track-overlay">
-            <div class="row hextop">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-            </div>
-            <div class="row hexmiddle">
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-            </div>
-            <div class="row hextop">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div>
-            </div>
-            <div class="row hexmiddle">
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-            </div>
-            <div class="row hextop">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div>
-            </div>
-            <div class="row hexmiddle">
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-            </div>
-            <div class="row hexbottom">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div>
-            </div>
-            <div class="row hexmiddle">
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-            </div>
-            <div class="row hexbottom">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div>
-            </div>
-            <div class="row hexmiddle">
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-                <div class="track"></div>
-            </div>
-            <div class="row hexbottom">
-                <div class="track"></div>
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-                <div class="track"></div> 
-            </div>
+    </form>
+    <!-- <a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a> -->
+    <button type="button" id="dice" class="btn btn-primary">Roll dice!</button>
+    <form action="/game/end_turn" id="end_form">
+        {% csrf_token %}
+        <button id="end_turn" class="btn btn-danger">End turn</button>
+    </form>
+    
+    
+    <div class="player_info">
+        <div class="player_tab player{{ player.turn_index }}">{{ player.name }}</div>
+        <div class="player_stats player{{ player.turn_index }}">
+            <h6>{{ player.name }}'s resources: </h6>
+            <p>Brick: {{ player.brick }}</p>
+            <p>Sheep: {{ player.sheep }}</p>
+            <p>Ore: {{ player.ore }}</p>
+            <p>Wheat: {{ player.wheat }}</p>
+            <p>Lumber: {{ player.lumber }}</p>
+            <p>Victory Points: {{ player.vic_points }}</p>
         </div>
     </div>
-    </form>
-        <!-- <a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a> -->
-        <button id="dice" class="btn btn-primary">Roll dice!</button>
-        <form action="/game/end_turn" id="end_form">
-            {% csrf_token %}
-            <button id="end_turn" class="btn btn-danger">End turn</button>
-        </form>
-        
-
-        <div class="player_info">
-            <div class="player_tab player1">{{ player.name }}</div>
-            <div class="player_stats player1">
-                <h6>{{ player.name }}'s resources: </h6>
-                <p>Brick: {{ player.brick }}</p>
-                <p>Sheep: {{ player.sheep }}</p>
-                <p>Ore: {{ player.ore }}</p>
-                <p>Wheat: {{ player.wheat }}</p>
-                <p>Lumber: {{ player.lumber }}</p>
-                <p>Victory Points: {{ player.vic_points }}</p>
-            </div>
-        </div>
-        <a href="/game/resources">Free stuff here</a>
-        <div class="log">
-            {% for message in log reversed %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-        
+    <a id="free" href="/game/resources">Free stuff here</a>
+    <div class="log">
+        {% for message in log reversed %}
+        <p>{{ message }}</p>
+        {% endfor %}
     </div>
     <script type="text/javascript">
         $('document').ready(function(){
+            let curr_player = 0;
 
             // add id data to each settlement
-            let settlement_id = 4
+            let settlement_id = 4;
             $(".circle").each(function(){
                 // This weird conditional is because I skipped a settlement in assignment, oops.
                 if (settlement_id < 31) {
@@ -274,10 +349,12 @@
                         console.log(serverResponse)
                         var parsedResponse = JSON.parse(serverResponse)
                         console.log(parsedResponse)
-                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
+                        $(".player_stats").addClass("player" + curr_player)
+                        $(".player_tab").addClass("player" + curr_player)
                         if (parsedResponse.success === true) {
-                            currCircle.addClass('player1')
+                            currCircle.addClass('player' + curr_player)
                         }
                         else {
                             error_message = "";
@@ -303,10 +380,12 @@
                     success: function(serverResponse){
                         var parsedResponse = JSON.parse(serverResponse)
                         console.log(parsedResponse)
-                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
+                        $(".player_stats").addClass("player" + curr_player)
+                        $(".player_tab").addClass("player" + curr_player)
                         if (parsedResponse.success === true) {
-                            currTrack.addClass('player1')
+                            currTrack.addClass('player' + curr_player)
                         }
                         else {
                             error_message = "";
@@ -325,14 +404,19 @@
             });
 
             $("#dice").click(function(){
+                console.log("dice are trying to roll. CATCH THEM!!!!")
                 $.ajax({
                     url: '/game/roll_dice',
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
+                        console.log("dice rolled")
                         var parsedResponse = JSON.parse(serverResponse)
-                        var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        console.log(parsedResponse)
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
+                        $(".player_stats").addClass("player" + curr_player)
+                        $(".player_tab").addClass("player" + curr_player)
                         let message = ""
                         for (let i = 0; i < parsedResponse.log.length; i++) {
                             message += "<p>"
@@ -342,14 +426,15 @@
                         $(".log").prepend(message)
 
                         $(".circle").each(function(){
-                            if (parsedResponse.settlements[$(this).data("id")]) {
-                                $(this).addClass("player1")
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
 
                         $(".track").each(function(){
-                            if (parsedResponse.roads[$(this).data("id")]) {
-                                $(this).addClass("player1")
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
                         });
                     }
@@ -364,7 +449,15 @@
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
                         console.log("ended turn")
-                        $(".player_info").html(serverResponse)
+                        let parsedResponse = JSON.parse(serverResponse)
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        $(".player_info").html(playerInfo)
+                        curr_player = parsedResponse.curr_player;
+                        console.log("player" + curr_player);
+                        let player = "player" + curr_player;
+                        $(".player_stats").addClass("player" + curr_player)
+                        $(".player_tab").addClass("player" + curr_player)
+                  
                     }
                 })
                 return false
