@@ -11,206 +11,206 @@
     <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
 </head>
 <body>
+    <div class="alert alert-danger" role="alert" style="display: none;"></div>
     <form id="form" action="/game">
         {% csrf_token %}
-    <div class="row">
-        <div class="hexagon forest"><div class="hexTop"></div><p>11 Forest</p><div class="hexBottom"></div></div>
-        <div class="hexagon pasture"><div class="hexTop"></div><p>12 Pasture</p><div class="hexBottom"></div></div>
-        <div class="hexagon field"><div class="hexTop"></div><p>9 Field</p><div class="hexBottom"></div></div>
-    </div>
-    <div class="row">
-        <div class="hexagon hill"><div class="hexTop"></div><p>4 Hill</p><div class="hexBottom"></div></div>
-        <div class="hexagon mountain"><div class="hexTop"></div><p>6 Mountain</p><div class="hexBottom"></div></div>
-        <div class="hexagon hill"><div class="hexTop"></div><p>5 Hill</p><div class="hexBottom"></div></div>
-        <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
-    </div>
-    <div class="row">
-        <div class="hexagon desert"><div class="hexTop"></div><p>Desert</p><div class="hexBottom"></div></div>
-        <div class="hexagon forest"><div class="hexTop"></div><p>3 Forest</p><div class="hexBottom"></div></div>
-        <div class="hexagon field"><div class="hexTop"></div><p>11 Field</p><div class="hexBottom"></div></div>
-        <div class="hexagon forest"><div class="hexTop"></div><p>4 Forest</p><div class="hexBottom"></div></div>
-        <div class="hexagon field"><div class="hexTop"></div><p>8 Field</p><div class="hexBottom"></div></div>
-    </div>
-    <div class="row">
-        <div class="hexagon hill"><div class="hexTop"></div><p>8 Hill</p><div class="hexBottom"></div></div>
-        <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
-        <div class="hexagon pasture"><div class="hexTop"></div><p>9 Pasture</p><div class="hexBottom"></div></div>
-        <div class="hexagon mountain"><div class="hexTop"></div><p>3 Mountain</p><div class="hexBottom"></div></div>
-    </div>
-    <div class="row">
-        <div class="hexagon mountain"><div class="hexTop"></div><p>5 Mountain</p><div class="hexBottom"></div></div>
-        <div class="hexagon field"><div class="hexTop"></div><p>2 Field</p><div class="hexBottom"></div></div>
-        <div class="hexagon forest"><div class="hexTop"></div><p>6 Forest</p><div class="hexBottom"></div></div>
-    </div>
-    <div class="settlement_overlay">
+    <div id="board">
         <div class="row">
-            <div>
-            <form action="/game" method="POST">
-                <button value="21" type="button" class="circle" style="border:none;"></button>
-            </form>
-                </div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+            <div class="hexagon forest"><div class="hexTop"></div><p>11 Forest</p><div class="hexBottom"></div></div>
+            <div class="hexagon pasture"><div class="hexTop"></div><p>12 Pasture</p><div class="hexBottom"></div></div>
+            <div class="hexagon field"><div class="hexTop"></div><p>9 Field</p><div class="hexBottom"></div></div>
         </div>
         <div class="row">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+            <div class="hexagon hill"><div class="hexTop"></div><p>4 Hill</p><div class="hexBottom"></div></div>
+            <div class="hexagon mountain"><div class="hexTop"></div><p>6 Mountain</p><div class="hexBottom"></div></div>
+            <div class="hexagon hill"><div class="hexTop"></div><p>5 Hill</p><div class="hexBottom"></div></div>
+            <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
         </div>
         <div class="row">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+            <div class="hexagon desert"><div class="hexTop"></div><p>Desert</p><div class="hexBottom"></div></div>
+            <div class="hexagon forest"><div class="hexTop"></div><p>3 Forest</p><div class="hexBottom"></div></div>
+            <div class="hexagon field"><div class="hexTop"></div><p>11 Field</p><div class="hexBottom"></div></div>
+            <div class="hexagon forest"><div class="hexTop"></div><p>4 Forest</p><div class="hexBottom"></div></div>
+            <div class="hexagon field"><div class="hexTop"></div><p>8 Field</p><div class="hexBottom"></div></div>
         </div>
-        <div class="row bottom">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+        <div class="row">
+            <div class="hexagon hill"><div class="hexTop"></div><p>8 Hill</p><div class="hexBottom"></div></div>
+            <div class="hexagon pasture"><div class="hexTop"></div><p>10 Pasture</p><div class="hexBottom"></div></div>
+            <div class="hexagon pasture"><div class="hexTop"></div><p>9 Pasture</p><div class="hexBottom"></div></div>
+            <div class="hexagon mountain"><div class="hexTop"></div><p>3 Mountain</p><div class="hexBottom"></div></div>
         </div>
-        <div class="row bottom">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+        <div class="row">
+            <div class="hexagon mountain"><div class="hexTop"></div><p>5 Mountain</p><div class="hexBottom"></div></div>
+            <div class="hexagon field"><div class="hexTop"></div><p>2 Field</p><div class="hexBottom"></div></div>
+            <div class="hexagon forest"><div class="hexTop"></div><p>6 Forest</p><div class="hexBottom"></div></div>
         </div>
-        <div class="row bottom">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+        <div class="settlement_overlay">
+            <div class="row">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="row">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="row">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="row bottom">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="row bottom">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="row bottom">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
+        <div class="track-overlay">
+            <div class="row hextop">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+            </div>
+            <div class="row hexmiddle">
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+            </div>
+            <div class="row hextop">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div>
+            </div>
+            <div class="row hexmiddle">
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+            </div>
+            <div class="row hextop">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div>
+            </div>
+            <div class="row hexmiddle">
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+            </div>
+            <div class="row hexbottom">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div>
+            </div>
+            <div class="row hexmiddle">
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+            </div>
+            <div class="row hexbottom">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div>
+            </div>
+            <div class="row hexmiddle">
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+                <div class="track"></div>
+            </div>
+            <div class="row hexbottom">
+                <div class="track"></div>
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+                <div class="track"></div> 
+            </div>
         </div>
     </div>
-    <div class="track-overlay">
-        <div class="row hextop">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-        </div>
-        <div class="row hexmiddle">
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-        </div>
-        <div class="row hextop">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div>
-        </div>
-        <div class="row hexmiddle">
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-        </div>
-        <div class="row hextop">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div>
-        </div>
-        <div class="row hexmiddle">
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-        </div>
-        <div class="row hexbottom">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div>
-        </div>
-        <div class="row hexmiddle">
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-        </div>
-        <div class="row hexbottom">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div>
-        </div>
-        <div class="row hexmiddle">
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-            <div class="track"></div>
-        </div>
-        <div class="row hexbottom">
-            <div class="track"></div>
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-            <div class="track"></div> 
-        </div>
     </form>
-        <!--<a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a>-->
+        <!-- <a href="/game/roll_dice" class="btn btn-primary">Roll Dice!</a> -->
         <button id="dice" class="btn btn-primary">Roll dice!</button>
         <form action="/game/end_turn" id="end_form">
             {% csrf_token %}
@@ -279,6 +279,17 @@
                         if (parsedResponse.success === true) {
                             currCircle.addClass('player1')
                         }
+                        else {
+                            error_message = "";
+                            for (let i = 0; i < parsedResponse.errors.length; i++) {
+                                console.log(parsedResponse.errors[i])
+                                error_message += "<p>"
+                                error_message += parsedResponse.errors[i];
+                                error_message += "</p>";                              
+                            }
+                            $(".alert").html(error_message);
+                            $(".alert").show();
+                        }
                     }
                 })
             });
@@ -296,6 +307,17 @@
                         $(".player_info").html(playerInfo)
                         if (parsedResponse.success === true) {
                             currTrack.addClass('player1')
+                        }
+                        else {
+                            error_message = "";
+                            for (let i = 0; i < parsedResponse.errors.length; i++) {
+                                console.log(parsedResponse.errors[i])
+                                error_message += "<p>"
+                                error_message += parsedResponse.errors[i];
+                                error_message += "</p>";                              
+                            }
+                            $(".alert").html(error_message);
+                            $(".alert").show();
                         }
                         console.log(serverResponse)
                     }

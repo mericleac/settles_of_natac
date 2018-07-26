@@ -139,7 +139,6 @@ def purchase_settlement (request, settlement_id):
         return JsonResponse(json.dumps(context), safe = False)
     else:
         request.session['errors'] = errors
-        print(*errors)
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         settlement = Settlement.objects.get(id= int(settlement_id))
@@ -153,8 +152,7 @@ def purchase_settlement (request, settlement_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
-            # "roads": roads.__dict__,
-            # "settlements": settlements.__dict__,
+            "errors": errors,
             "curr_settlement": 5,
             "success": False
         }
@@ -215,6 +213,7 @@ def purchase_road (request, road_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
+            'errors': errors,
             # "player": player,
             # "roads": roads,
             # "settlements": settlements
@@ -242,6 +241,7 @@ def clear(request):
         settlement.player = None
         settlement.save()
     return redirect("/game")
+
 def initialize_db(request):
     Field.objects.create(resource = 'lumber', robber=False, number = 11)
     Field.objects.create(resource = 'sheep', robber=False, number = 12)
