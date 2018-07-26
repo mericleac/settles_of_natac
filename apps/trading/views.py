@@ -1,14 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
 
-def create(request, id):
-    playerA = Player.objects.get(id = request.session['currPlayer'])
-    playerB = Player.objects.get(id = id)
-    return redirect("/trading/"+id)
-
 def index(request, id):
     playerA = Player.objects.get(id = request.session['currPlayer'])
     playerB = Player.objects.get(id = id)
+    request.session['tradePartner'] = playerB.id
+    if playerA == playerB:
+        print("You can not trade with yourself!")
+        return redirect('/game')
     context = {
         'p1': playerA,
         'p2': playerB
@@ -17,7 +16,7 @@ def index(request, id):
 
 def trade(request):
     playerA = Player.objects.get(id=request.session['currPlayer'])
-    playerB = Player.objects.last()
+    playerB = Player.objects.get(id=request.session['tradePartner'])
     playerA.wheat += int(request.POST['p2wheat'])
     playerA.ore += int(request.POST['p2ore'])
     playerA.brick += int(request.POST['p2brick'])
@@ -43,7 +42,7 @@ def trade(request):
     print("*"*80)
     print(playerA.name, "vp:", playerA.vic_points, "wheat:", playerA.wheat, "ore:", playerA.ore, "brick", playerA.brick, "lumber:", playerA.lumber, "sheep:", playerA.sheep, )
     print(playerB.name, "vp:", playerB.vic_points, "wheat:", playerB.wheat, "ore:", playerB.ore, "brick", playerB.brick, "lumber:", playerB.lumber, "sheep:", playerB.sheep, )
-    return redirect("/trading")
+    return redirect("/game")
 
 def delete(request):
     Player.objects.all().delete()

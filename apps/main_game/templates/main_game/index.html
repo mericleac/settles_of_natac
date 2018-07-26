@@ -309,6 +309,10 @@
     <div id="trading">
     </div>
     <a id="free" href="/game/resources">Free stuff here</a>
+    {% for player in all_players %}
+    <p><a href="trading/{{player.id}}">Trade with {{player.name}}</a></p>
+    {% endfor %}
+
     <div class="log">
         {% for message in log reversed %}
         <p>{{ message }}</p>
