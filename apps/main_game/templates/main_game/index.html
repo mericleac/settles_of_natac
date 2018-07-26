@@ -490,7 +490,7 @@
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
                         //console.log("ended turn")
-                        //$('#trading').html(serverResponse)
+                        $('#trading').html(serverResponse)
                         //console.log("ended turn")
                         let parsedResponse = JSON.parse(serverResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
