@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from .models import *
+import json
 
 def setup_settlementr1(request, settlement_id):
     print("Setting up settlement")
@@ -10,7 +12,18 @@ def setup_settlementr1(request, settlement_id):
     print(request.session['sett_or_road'])
     request.session['sett_or_road'] = "road"
     print(request.session['sett_or_road'])
-    return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})
+    context = {
+        "player_info": {
+            "name": player.name,
+            "brick": player.brick,
+            "sheep": player.sheep,
+            "ore": player.ore,
+            "wheat": player.wheat,
+            "lumber": player.lumber,
+            "vic_points": player.vic_points,
+        }
+    }
+    return JsonResponse(json.dumps(context), safe = False)
 
 def setup_roadr1(request, road_id):
     print("Setting up road")
@@ -19,6 +32,17 @@ def setup_roadr1(request, road_id):
     road.player = player
     road.save()
     request.session['sett_or_road'] = "settlement"
+    context = {
+        "player_info": {
+            "name": player.name,
+            "brick": player.brick,
+            "sheep": player.sheep,
+            "ore": player.ore,
+            "wheat": player.wheat,
+            "lumber": player.lumber,
+            "vic_points": player.vic_points,
+        }
+    }
     return redirect('/setup/end_turn')
 
 def end_turn(request):
@@ -26,10 +50,22 @@ def end_turn(request):
     players = request.session['player']
     print(players)
     player = request.session['currPlayer']
+    currPlayer = Player.objects.get(id=player)
+    context = {
+        "player_info": {
+            "name": currPlayer.name,
+            "brick": currPlayer.brick,
+            "sheep": currPlayer.sheep,
+            "ore": currPlayer.ore,
+            "wheat": currPlayer.wheat,
+            "lumber": currPlayer.lumber,
+            "vic_points": currPlayer.vic_points,
+        }
+    }
     if request.session['setup_round'] == 1:
         if player == players[-1]:
             request.session['setup_round'] = 2
-            return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})
+            return JsonResponse(json.dumps(context), safe = False)
         request.session['currPlayer'] = player+1
         print(request.session['currPlayer'])
     elif request.session['setup_round'] == 2:
@@ -38,6 +74,6 @@ def end_turn(request):
         else:
             request.session['setup'] = False
             print("Ending setup")
-            return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})
+            return JsonResponse(json.dumps(context), safe = False)
     print(request.session['currPlayer'])
-    return render(request, "main_game/info.html", { 'player': Player.objects.get(id=request.session['currPlayer'])})
+    return JsonResponse(json.dumps(context), safe = False)

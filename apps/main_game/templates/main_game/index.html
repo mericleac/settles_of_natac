@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang='en'>
 <head>
     <meta charset='utf-8' />
@@ -271,6 +271,7 @@
                     method: 'post',
                     data: $('#form').serialize(),
                     success: function(serverResponse){
+                        console.log(serverResponse)
                         var parsedResponse = JSON.parse(serverResponse)
                         console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab player1'>" + parsedResponse.player_info.name + "</div><div class='player_stats player1'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
