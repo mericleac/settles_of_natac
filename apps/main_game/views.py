@@ -60,7 +60,6 @@ def setup(request):
     request.session['setup'] = True
     request.session['setup_round'] = 1
     request.session['sett_or_road'] = "settlement"
-    print(request.session['setup'])
     return redirect('/game')
 
 def player_turn(request):

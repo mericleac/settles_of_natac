@@ -7,6 +7,7 @@ def setup_settlementr1(request, settlement_id):
     print("Setting up settlement")
     settlement = Settlement.objects.get(id=int(settlement_id))
     player = Player.objects.get(id=request.session['currPlayer'])
+    errors = settlement.setup_settlement(player, False)
     settlement.player = player
     settlement.save()
     print(request.session['sett_or_road'])
@@ -30,6 +31,7 @@ def setup_roadr1(request, road_id):
     print("Setting up road")
     road = Road.objects.get(id=road_id)
     player = Player.objects.get(id=request.session['currPlayer'])
+    errors = road.setup_road(player, False)
     road.player = player
     road.save()
     request.session['sett_or_road'] = "settlement"
