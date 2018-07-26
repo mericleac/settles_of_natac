@@ -314,7 +314,7 @@
         <p>{{ message }}</p>
         {% endfor %}
     </div>
-    <button type="button" id="trade" class="btn btn-primary">Trade</button>
+    <a id="trade"href=""></a>
     <script type="text/javascript">
         $('document').ready(function(){
             let curr_player = 0;
@@ -442,6 +442,8 @@
 
             $("#dice").click(function(){
                 console.log("dice are trying to roll. CATCH THEM!!!!")
+                $(this).prop("disabled", true);
+                $('#end_turn').prop("disabled", false);
                 $.ajax({
                     url: '/game/roll_dice',
                     method: 'post',
@@ -475,6 +477,10 @@
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
                         });
+                        console.log("gonna try and list partners now")
+                        console.log(parsedResponse)
+                        console.log(parsedResponse.partners)
+                        $("#trade").html(parsedResponse.partners)
                     }
                 });
                 return false
@@ -494,6 +500,8 @@
             })
 
             $("#end_turn").click(function(){
+                $('#dice').prop("disabled", false);
+                $(this).prop("disabled", true);
                 $.ajax({
                     url: '/game/end_turn',
                     method: 'post',
