@@ -7,7 +7,11 @@ def index(request):
     if 'log' not in request.session:
         request.session['log'] = []
     players = request.session['player']
-    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log']})
+    all_players = []
+    for each in players:
+        p = Player.objects.get(id=each)
+        all_players.append(p)
+    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'], 'all_players':all_players })
     
 def roll_dice(request):
     log = []

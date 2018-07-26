@@ -42,6 +42,10 @@
                     <h3>{{ p1.name }}</h3>
                     <p>Select amount to give away</p>
                     <div class="resource_column">
+                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
+                        <input type="number" name="p1brick" min="0" max={{ p1.brick }} step="1" value="0">
+                    </div>
+                    <div class="resource_column">
                         <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
                         <input type="number" name="p1sheep" min="0" max={{ p1.sheep }} step="1" value="0">
                     </div>
@@ -54,10 +58,6 @@
                         <input type="number" name="p1wheat" min="0" max={{ p1.wheat }} step="1" value="0">
                     </div>
                     <div class="resource_column">
-                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
-                        <input type="number" name="p1brick" min="0" max={{ p1.brick }} step="1" value="0">
-                    </div>
-                    <div class="resource_column">
                         <img src="{% static 'images/lumber.jpg' %}" alt="lumber">
                         <input type="number" name="p1lumber" min="0" max={{ p1.lumber }} step="1" value="0">
                     </div>
@@ -66,6 +66,10 @@
                 <div id="p2">
                     <h3>{{ p2.name }}</h3>
                     <p>Select amount to give away</p>
+                    <div class="resource_column">
+                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
+                        <input type="number" name="p2brick" min="0" max={{ p2.brick }} step="1" value="0">
+                    </div>
                     <div class="resource_column">
                         <img src="{% static 'images/sheep.jpg' %}" alt="sheep">
                         <input type="number" name="p2sheep" min="0" max={{ p2.sheep }} step="1" value="0">
@@ -77,10 +81,6 @@
                     <div class="resource_column">
                         <img src="{% static 'images/wheat.jpg' %}" alt="wheat">
                         <input type="number" name="p2wheat" min="0" max={{ p2.wheat }} step="1" value="0">
-                    </div>
-                    <div class="resource_column">
-                        <img src="{% static 'images/brick.jpg' %}" alt="brick">
-                        <input type="number" name="p2brick" min="0" max={{ p2.brick }} step="1" value="0">
                     </div>
                     <div class="resource_column">
                         <img src="{% static 'images/lumber.jpg' %}" alt="lumber">
