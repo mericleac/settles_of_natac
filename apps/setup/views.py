@@ -38,6 +38,9 @@ def setup_settlementr1(request, settlement_id):
         return JsonResponse(json.dumps(context), safe = False)
     settlement.player = player
     settlement.save()
+    if request.session['setup_round'] == 2:
+        for adjacent_field in settlement.adjacent_fields.all():
+            player.__dict__[str(adjacent_field.resource)] += 1
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
     settle_dict = {}
