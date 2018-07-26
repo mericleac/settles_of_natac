@@ -1,14 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
 
-def create(request):
-    playerA = Player.objects.create(name="Alice", vic_points=0, wheat=5, ore=5, brick=5, lumber=5, sheep=5)
-    playerB = Player.objects.create(name="Bob", vic_points=0, wheat=3, ore=3, brick=3, lumber=3, sheep=3)
-    return redirect("/trading")
-
 def index(request):
-    playerA = Player.objects.get(name="Alice")
-    playerB = Player.objects.get(name="Bob")
+    curr_player = Player.objects.get(id=request.session['currPlayer'])
+    playerA = curr_player
+    playerB = Player.objects.last()
     context = {
         'p1': playerA,
         'p2': playerB
@@ -16,8 +12,8 @@ def index(request):
     return render(request, "trading/trade.html", context)
 
 def trade(request):
-    playerA = Player.objects.get(name="Alice")
-    playerB = Player.objects.get(name="Bob")
+    playerA = Player.objects.get(id=request.session['currPlayer'])
+    playerB = Player.objects.last()
     playerA.wheat += int(request.POST['p2wheat'])
     playerA.ore += int(request.POST['p2ore'])
     playerA.brick += int(request.POST['p2brick'])

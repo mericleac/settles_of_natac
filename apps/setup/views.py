@@ -8,8 +8,45 @@ def setup_settlementr1(request, settlement_id):
     settlement = Settlement.objects.get(id=int(settlement_id))
     player = Player.objects.get(id=request.session['currPlayer'])
     errors = settlement.setup_settlement(player, False)
+    if len(errors):
+        request.session['errors'] = errors
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
+        settlement = Settlement.objects.get(id= int(settlement_id))
+        context = {
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            "errors": errors,
+            "settlements": settle_dict,
+            "roads": road_dict,
+            "success": False
+        }
+        return JsonResponse(json.dumps(context), safe = False)
     settlement.player = player
     settlement.save()
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
+    player.vic_points += 1
+    player.save()
     print(request.session['sett_or_road'])
     request.session['sett_or_road'] = "road"
     print(request.session['sett_or_road'])
@@ -23,6 +60,8 @@ def setup_settlementr1(request, settlement_id):
             "lumber": player.lumber,
             "vic_points": player.vic_points,
         },
+        "settlements": settle_dict,
+        "roads": road_dict,
         "success": True
     }
     return JsonResponse(json.dumps(context), safe = False)
@@ -32,8 +71,43 @@ def setup_roadr1(request, road_id):
     road = Road.objects.get(id=road_id)
     player = Player.objects.get(id=request.session['currPlayer'])
     errors = road.setup_road(player, False)
+    if len(errors):
+        request.session['errors'] = errors
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
+        settlement = Settlement.objects.get(id= int(settlement_id))
+        context = {
+            "player_info": {
+                "name": player.name,
+                "brick": player.brick,
+                "sheep": player.sheep,
+                "ore": player.ore,
+                "wheat": player.wheat,
+                "lumber": player.lumber,
+                "vic_points": player.vic_points,
+            },
+            "errors": errors,
+            "settlements": settle_dict,
+            "roads": road_dict,
+            "success": False
+        }
+        return JsonResponse(json.dumps(context), safe = False)
     road.player = player
     road.save()
+    settlements = Settlement.objects.all()
+    roads = Road.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
     request.session['sett_or_road'] = "settlement"
     context = {
         "player_info": {
@@ -45,6 +119,8 @@ def setup_roadr1(request, road_id):
             "lumber": player.lumber,
             "vic_points": player.vic_points,
         },
+        "settlements": settle_dict,
+        "roads": road_dict,
         "success": True
     }
     return redirect('/setup/end_turn')
@@ -55,6 +131,14 @@ def end_turn(request):
     print(players)
     player = request.session['currPlayer']
     currPlayer = Player.objects.get(id=player)
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
     context = {
         "player_info": {
             "name": currPlayer.name,
@@ -65,6 +149,8 @@ def end_turn(request):
             "lumber": currPlayer.lumber,
             "vic_points": currPlayer.vic_points,
         },
+        "settlements": settle_dict,
+        "roads": road_dict,
         "success": True
     }
     if request.session['setup_round'] == 1:

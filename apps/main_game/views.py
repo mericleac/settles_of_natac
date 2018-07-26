@@ -96,7 +96,7 @@ def player_turn(request):
     return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
-    request.session['setup'] = False
+    #request.session['setup'] = False
     if request.session['setup'] == True:
         if request.session['sett_or_road'] == "settlement":
             return redirect('/setup/setup_settlementr1/'+settlement_id)
@@ -126,7 +126,6 @@ def purchase_settlement (request, settlement_id):
     player = Player.objects.get(id=request.session['currPlayer'])
     settlement = Settlement.objects.get(id= int(settlement_id))
     errors = settlement.purchase_settlement(player, False)
-    json.dumps([1,2,3])
     if len(errors) == 0:
         player.brick -= 1
         player.lumber -= 1
@@ -192,7 +191,7 @@ def road(request, road_id):
                 "errors": ["Now is not the time to build a road!"]
             }
             print("Now is not the time to build a road!")
-            return render(request, 'main_game/info.html')
+            return JsonResponse(json.dumps(context), safe = False)
     else:
         print("there")
         return redirect('/game/purchase_road/'+road_id)
@@ -262,12 +261,16 @@ def resources(request):
 def clear(request):
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
+    players = Player.objects.all()
     for road in roads:
         road.player = None
         road.save()
     for settlement in settlements:
         settlement.player = None
         settlement.save()
+    for player in players:
+        player.vic_points = 0
+        player.save()
     return redirect("/game")
 
 def initialize_db(request):
