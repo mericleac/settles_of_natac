@@ -368,18 +368,20 @@
                             $(".alert").html(error_message);
                             $(".alert").show();
                         }
-                    //     $(".circle").each(function(){
-                    //         if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                    //             //console.log(parsedResponse.settlements[$(this).data("id")])
-                    //             $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                    //         }
-                    //     });
+                        $(".circle").each(function(){
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                //console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                    //     $(".track").each(function(){
-                    //         if (parsedResponse.roads[$(this).data("id")] !== false) {
-                    //             $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                    //         };
-                    //     });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                     }
                 })
             });
@@ -411,19 +413,21 @@
                             $(".alert").html(error_message);
                             $(".alert").show();
                         }
-                        // $(".circle").each(function(){
-                        //     console.log(parsedResponse)
-                        //     if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                        //         console.log(parsedResponse.settlements[$(this).data("id")])
-                        //         $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                        //     }
-                        // });
+                        $(".circle").each(function(){
+                            console.log(parsedResponse)
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                        // $(".track").each(function(){
-                        //     if (parsedResponse.roads[$(this).data("id")] !== false) {
-                        //         $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                        //     };
-                        // });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                         //console.log(serverResponse)
                     }
                 })

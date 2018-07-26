@@ -32,6 +32,7 @@ def setup_settlementr1(request, settlement_id):
             "errors": errors,
             "settlements": settle_dict,
             "roads": road_dict,
+            "curr_player": player.turn_index,
             "success": False
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -61,6 +62,7 @@ def setup_settlementr1(request, settlement_id):
             "vic_points": player.vic_points,
         },
         "settlements": settle_dict,
+        "curr_player": player.turn_index,
         "roads": road_dict,
         "success": True
     }
@@ -149,6 +151,7 @@ def end_turn(request):
             "lumber": currPlayer.lumber,
             "vic_points": currPlayer.vic_points,
         },
+        "curr_player": Player.objects.get(id=player).turn_index,
         "settlements": settle_dict,
         "roads": road_dict,
         "success": True
@@ -164,7 +167,7 @@ def end_turn(request):
             request.session['currPlayer'] = player-1
         else:
             request.session['setup'] = False
-            print("Ending setup")
+            #print("Ending setup")
             return JsonResponse(json.dumps(context), safe = False)
     print(request.session['currPlayer'])
     return JsonResponse(json.dumps(context), safe = False)
