@@ -31,7 +31,7 @@ class Settlement(models.Model):
         if self.player == None:
             return False
         else:
-            return True
+            return self.player.turn_index
     def purchase_settlement(self, player, city):
         errors = []
         if self.player != None:
@@ -78,7 +78,8 @@ class Road(models.Model):
         if self.player == None:
             return False
         else:
-            return True
+            return self.player.turn_index
+            
     def setup_road (self, player, city):
         errors = []
         owned_settlement = False

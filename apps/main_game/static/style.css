@@ -9,7 +9,7 @@ body {
 
 .hexagon {
     position: relative;
-    width: 150px; 
+    width: 150px;
     height: 86.60px;
     margin: 43.30px 0;
     background-size: auto 168.5863px;
@@ -107,6 +107,9 @@ p {
     position: relative;
     z-index: 5;
 }  
+#board {
+    margin-top: 30px;
+}
 .row {
     height: 129px;
     width: fit-content;
@@ -171,17 +174,17 @@ p {
 .hexbottom .track:nth-of-type(even) {
     transform: rotate(56deg)
 }
-.player1 {
+.player0 {
     background-color: rgba(255, 0, 0, 1);
 }
-.player2 {
+.player1 {
     background-color: rgba(255, 255, 0, 1)
 }
-.player3 {
+.player2 {
     background-color: rgba(0, 255, 0, 1)
 }
-.player4 {
-    background-color: rgba(0, 0, 255, 1);
+.player3 {
+    background-color: rgb(91, 91, 241);
 }
 .player_stats {
     position: absolute;
@@ -208,6 +211,27 @@ p {
     height: 300px;
     overflow: auto;
 }
-#dice{
-    margin-top: 60px;
+.alert {
+    width: 25%;
+    right: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+#dice {
+    position: absolute;
+    left: 60px;
+    top: 520px;
+}
+
+#end_turn {
+    position: absolute;
+    left: 60px;
+    top: 600px; 
+}
+
+#free {
+    position: absolute;
+    left: 60px;
+    top: 680px; 
 }
