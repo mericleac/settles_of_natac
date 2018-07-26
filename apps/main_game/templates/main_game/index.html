@@ -499,7 +499,8 @@
                     method: 'post',
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
-                        if (typeof serverResponse == 'object'){
+                        console.log(typeof serverResponse)
+                        try {
                             $(".alert-danger").hide();
                             let parsedResponse = JSON.parse(serverResponse)
                             var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
@@ -509,7 +510,8 @@
                             $(".player_stats").addClass("player" + curr_player)
                             $(".player_tab").addClass("player" + curr_player)
                         }
-                        else {
+                        catch(SyntaxError) {
+                            console.log("Made it to else")
                             $('body').html(serverResponse)
                         }
                     }
