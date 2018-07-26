@@ -79,9 +79,6 @@ def player_turn(request):
         print('current player is now:', request.session['currPlayer'])
     curr_player = Player.objects.get(id=request.session['currPlayer'])
     request.session['player_index'] = i
-    all_players = []
-    for player in request.session['player']:
-        all_players.append(Player.objects.get(id=player))
     context = {
         "player_info": {
             "name": curr_player.name,
@@ -93,12 +90,10 @@ def player_turn(request):
             "vic_points": curr_player.vic_points,
         },
         "curr_player": i,
-        'players':all_players,
-        'currPlayer':curr_player,
     }
     print("The current player is now "+ context['player_info']['name'])
     print("currPlayer is:", curr_player.name)
-    return render(request, "main_game/partners.html", context)
+    return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
     #request.session['setup'] = False
