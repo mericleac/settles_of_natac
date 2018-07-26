@@ -1,10 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
 
-def index(request):
-    curr_player = Player.objects.get(id=request.session['currPlayer'])
-    playerA = curr_player
-    playerB = Player.objects.last()
+def create(request, id):
+    playerA = Player.objects.get(id = request.session['currPlayer'])
+    playerB = Player.objects.get(id = id)
+    return redirect("/trading/"+id)
+
+def index(request, id):
+    playerA = Player.objects.get(id = request.session['currPlayer'])
+    playerB = Player.objects.get(id = id)
     context = {
         'p1': playerA,
         'p2': playerB

@@ -35,7 +35,10 @@ class Settlement(models.Model):
     def purchase_settlement(self, player, city):
         errors = []
         if self.player != None:
-            errors.append("That settlement is already owned!")
+            if self.player == player:
+                city = True
+            else:
+                errors.append("That settlement is already owned!")
         if city == False:
             if player.brick < 1 or player.lumber < 1 or player.sheep < 1 or player.wheat < 1:
                 errors.append("Not enough resources!")
@@ -48,7 +51,7 @@ class Settlement(models.Model):
             if road.player == player:
                 owned_road = True
             for settlement in road.adjacent_settlements.all():
-                if settlement.player != None:
+                if settlement.player != None and settlement != self:
                     spaced_out = False
         if owned_road == False:
             errors.append("You must own a road adjoining a settlement in order to purchase it!")
