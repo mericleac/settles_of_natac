@@ -211,11 +211,7 @@ def road(request, road_id):
                 "errors": ["Now is not the time to build a road!"]
             }
             print("Now is not the time to build a road!")
-<<<<<<< HEAD
             return JsonResponse(json.dumps(context), safe=False)
-=======
-            return JsonResponse(json.dumps(context), safe = False)
->>>>>>> bd55edbd831f001f70e3d16e25078124912fff9e
     else:
         print("there")
         return redirect('/game/purchase_road/'+road_id)
