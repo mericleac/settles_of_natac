@@ -1,13 +1,41 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>
-
-    
-        
-        
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
         {% load static %}
-<div>
-    <h4>{{ Victor.name }} has won!</h4>
-    <p>Through trade and industry, {{ Victor.name }}'s settlers have established a dominant position in the fertile land of Natac. Gleaming cities and rising settlements blossom across the countryside, filled with bustling craftsmen, proud farmers, and noble knights. {{ Victor.name }}'s wise leadership will surely be recognized forevermore in the annals of history.</p>
-</div>
-<a>Return to lobby</a>
-</div>
-</body></html>
+        <style>
+            /* body{
+                background-image: url("{% static 'images/victory.jpg' %}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                height: 500px;
+            } */
+            #text{
+                background-color: palegoldenrod;
+                margin: 0;
+                height: 200px;
+                text-align: center;
+                padding: 25px;
+            }
+            a{
+                margin: 0;
+                position: relative;
+            }
+            img{
+                width: 100%;
+            }
+        </style>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="text">
+                <h4>{{ Victor.name }} has won!</h4>
+                <p>Through trade and industry, {{ Victor.name }}'s settlers have established a dominant position in the fertile land of Natac. Gleaming cities and rising settlements blossom across the countryside, filled with bustling craftsmen, proud farmers, and noble knights. {{ Victor.name }}'s wise leadership will surely be recognized forevermore in the annals of history.</p>
+                <a href="/game/clear" class="btn btn-warning">Return to lobby</a>
+            </div>
+            <img src="{% static 'images/victory.jpg' %}">
+        </div>
+    </body>
+</html>

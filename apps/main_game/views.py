@@ -7,11 +7,15 @@ def index(request):
     if 'log' not in request.session:
         request.session['log'] = []
     players = request.session['player']
-    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'] })
+    all_players = []
+    for each in players:
+        p = Player.objects.get(id=each)
+        all_players.append(p)
+    return render(request, "main_game/index.html", { 'player': Player.objects.get(id=request.session['currPlayer']), 'log': request.session['log'], 'all_players':all_players })
     
 def roll_dice(request):
     log = []
-    print(log)
+    #print(log)
     from random import randint
     die1 = randint(1, 6)
     log.append('first dice was: ' + str(die1))
@@ -38,6 +42,7 @@ def roll_dice(request):
     road_dict = {}
     for road in roads:
         road_dict[road.id] = road.is_owned()
+    request.session['dice'] = 'rolled'
     context = {
         "player_info": {
             "name": player.name,
@@ -51,6 +56,7 @@ def roll_dice(request):
         "log": log,
         "settlements": settle_dict,
         "roads": road_dict,
+        "dice": request.session['dice']
     }
     return JsonResponse(json.dumps(context), safe = False)
 
@@ -79,9 +85,7 @@ def player_turn(request):
         print('current player is now:', request.session['currPlayer'])
     curr_player = Player.objects.get(id=request.session['currPlayer'])
     request.session['player_index'] = i
-    all_players = []
-    for player in request.session['player']:
-        all_players.append(Player.objects.get(id=player))
+    request.session['dice'] = 'unrolled'
     context = {
         "player_info": {
             "name": curr_player.name,
@@ -93,12 +97,11 @@ def player_turn(request):
             "vic_points": curr_player.vic_points,
         },
         "curr_player": i,
-        'players':all_players,
-        'currPlayer':curr_player,
+        "dice": request.session['dice']
     }
     print("The current player is now "+ context['player_info']['name'])
     print("currPlayer is:", curr_player.name)
-    return render(request, "main_game/partners.html", context)
+    return JsonResponse(json.dumps(context), safe = False)
 
 def settlement(request, settlement_id):
     #request.session['setup'] = False
@@ -132,6 +135,8 @@ def purchase_settlement (request, settlement_id):
     settlement = Settlement.objects.get(id= int(settlement_id))
     if settlement.player == player and settlement.rank == "normal":
         city = True
+        player.vic_points += 1
+        player.save()
         errors = settlement.purchase_settlement(player, True)
     elif settlement.player != player:
         city = False
@@ -156,6 +161,12 @@ def purchase_settlement (request, settlement_id):
             settlement.save()
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
         context = {
             "player_info": {
                 "name": player.name,
@@ -167,6 +178,8 @@ def purchase_settlement (request, settlement_id):
                 "vic_points": player.vic_points,
             },
             "city": city,
+            "settlements": settle_dict,
+            "roads": road_dict,
             "success": True
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -175,6 +188,13 @@ def purchase_settlement (request, settlement_id):
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
         settlement = Settlement.objects.get(id= int(settlement_id))
+        roads = Road.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
         context = {
             "player_info": {
                 "name": player.name,
@@ -186,6 +206,8 @@ def purchase_settlement (request, settlement_id):
                 "vic_points": player.vic_points,
             },
             "errors": errors,
+            "settlements": settle_dict,
+            "roads": road_dict,
             "success": False
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -229,6 +251,12 @@ def purchase_road (request, road_id):
         road.save()
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
         context = {
             "player_info": {
                 "name": player.name,
@@ -239,6 +267,8 @@ def purchase_road (request, road_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
+            "settlements": settle_dict,
+            "roads": road_dict,
             "success": True
         }
         return JsonResponse(json.dumps(context), safe = False)
@@ -247,6 +277,12 @@ def purchase_road (request, road_id):
         print(*errors)
         roads = Road.objects.all()
         settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
         context = {
             "player_info": {
                 "name": player.name,
@@ -257,6 +293,8 @@ def purchase_road (request, road_id):
                 "lumber": player.lumber,
                 "vic_points": player.vic_points,
             },
+            "settlements": settle_dict,
+            "roads": road_dict,
             'errors': errors,
             "success": False
         }
@@ -285,7 +323,7 @@ def clear(request):
     for player in players:
         player.vic_points = 0
         player.save()
-    return redirect("/game")
+    return redirect("/lobby")
 
 def victory (request, player_id):
     player = Player.objects.get(id = int(player_id))

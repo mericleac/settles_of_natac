@@ -310,12 +310,16 @@
     <div id="trading">
     </div>
     <a id="free" href="/game/resources">Free stuff here</a>
+    {% for player in all_players %}
+    <p><a href="trading/{{player.id}}">Trade with {{player.name}}</a></p>
+    {% endfor %}
+
     <div class="log">
         {% for message in log reversed %}
         <p>{{ message }}</p>
         {% endfor %}
     </div>
-    <button type="button" id="trade" class="btn btn-primary">Trade</button>
+    <a id="trade"href=""></a>
     <script type="text/javascript">
         $('document').ready(function(){
             $.ajax({
@@ -385,18 +389,20 @@
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
-                    //     $(".circle").each(function(){
-                    //         if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                    //             //console.log(parsedResponse.settlements[$(this).data("id")])
-                    //             $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                    //         }
-                    //     });
+                        $(".circle").each(function(){
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                //console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                    //     $(".track").each(function(){
-                    //         if (parsedResponse.roads[$(this).data("id")] !== false) {
-                    //             $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                    //         };
-                    //     });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                     }
                 })
             });
@@ -429,19 +435,21 @@
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
-                        // $(".circle").each(function(){
-                        //     console.log(parsedResponse)
-                        //     if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                        //         console.log(parsedResponse.settlements[$(this).data("id")])
-                        //         $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
-                        //     }
-                        // });
+                        $(".circle").each(function(){
+                            console.log(parsedResponse)
+                            if (parsedResponse.settlements[$(this).data("id")] !== false) {
+                                console.log(parsedResponse.settlements[$(this).data("id")])
+                                $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
+                            }
+                        });
 
-                        // $(".track").each(function(){
-                        //     if (parsedResponse.roads[$(this).data("id")] !== false) {
-                        //         $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
-                        //     };
-                        // });
+                        $(".track").each(function(){
+                            if (parsedResponse.roads[$(this).data("id")] !== false) {
+                                $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
+                            };
+                        });
+                        $(".player_stats").addClass("player" + parsedResponse.curr_player)
+                        $(".player_tab").addClass("player" + parsedResponse.curr_player)
                         //console.log(serverResponse)
                     }
                 })
@@ -449,6 +457,8 @@
 
             $("#dice").click(function(){
                 console.log("dice are trying to roll. CATCH THEM!!!!")
+                $(this).prop("disabled", true);
+                $('#end_turn').prop("disabled", false);
                 $.ajax({
                     url: '/game/roll_dice',
                     method: 'post',
@@ -482,6 +492,10 @@
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
                         });
+                        console.log("gonna try and list partners now")
+                        console.log(parsedResponse)
+                        console.log(parsedResponse.partners)
+                        $("#trade").html(parsedResponse.partners)
                     }
                 });
                 return false
@@ -501,6 +515,8 @@
             })
 
             $("#end_turn").click(function(){
+                $('#dice').prop("disabled", false);
+                $(this).prop("disabled", true);
                 $.ajax({
                     url: '/game/end_turn',
                     method: 'post',
