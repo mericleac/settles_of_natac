@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'road/(?P<road_id>\d+)', views.road),
     url(r'end_turn', views.player_turn),
     url(r'resources', views.resources),
-    url(r'clear', views.clear)
+    url(r'clear', views.clear),
 ]
