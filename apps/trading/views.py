@@ -16,8 +16,8 @@ def index(request, id):
     return render(request, "trading/trade.html", context)
 
 def trade(request):
-    playerA = Player.objects.get(name="Alice")
-    playerB = Player.objects.get(name="Bob")
+    playerA = Player.objects.get(id=request.session['currPlayer'])
+    playerB = Player.objects.last()
     playerA.wheat += int(request.POST['p2wheat'])
     playerA.ore += int(request.POST['p2ore'])
     playerA.brick += int(request.POST['p2brick'])
