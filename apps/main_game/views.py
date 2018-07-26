@@ -243,6 +243,7 @@ def clear(request):
         settlement.player = None
         settlement.save()
     return redirect("/game")
+
 def initialize_db(request):
     Field.objects.create(resource = 'lumber', robber=False, number = 11)
     Field.objects.create(resource = 'sheep', robber=False, number = 12)
