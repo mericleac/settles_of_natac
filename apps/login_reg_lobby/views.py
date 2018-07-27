@@ -135,9 +135,8 @@ def lobbyReg(request):
                 )
             p4.save()
             request.session['player'].append(p4.id)
-        counter = 0
         if len(request.session['player']) < 2:
             messages.error(request, 'Need to enter at least two players', 'playersCount')
             return redirect('/lobby')
-        return redirect('/game/setup')
+        return redirect('/game/initialize_db')
 

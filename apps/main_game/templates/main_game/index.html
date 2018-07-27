@@ -17,104 +17,105 @@
         {% csrf_token %}
         <div id="board">
             <div class="row">
-                <div class="hexagon forest">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>11</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon pasture">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>12</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon field">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>9</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="hexagon hill">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>4</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon mountain">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>6</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon hill">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>5</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon pasture">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>10</p>
                     <div class="hexBottom"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="hexagon desert">
-                    <div class="hexTop"></div>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon forest">
-                    <div class="hexTop"></div>
-                    <p>3</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon field">
-                    <div class="hexTop"></div>
-                    <p>11</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon forest">
-                    <div class="hexTop"></div>
-                    <p>4</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon field">
-                    <div class="hexTop"></div>
-                    <p>8</p>
-                    <div class="hexBottom"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="hexagon hill">
-                    <div class="hexTop"></div>
-                    <p>8</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon pasture">
-                    <div class="hexTop"></div>
-                    <p>10</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon pasture">
-                    <div class="hexTop"></div>
-                    <p>9</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon mountain">
-                    <div class="hexTop"></div>
-                    <p>3</p>
-                    <div class="hexBottom"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="hexagon mountain">
-                    <div class="hexTop"></div>
-                    <p>5</p>
-                    <div class="hexBottom"></div>
-                </div>
-                <div class="hexagon field">
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>2</p>
                     <div class="hexBottom"></div>
                 </div>
-                <div class="hexagon forest">
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>3</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>11</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>4</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>8</p>
+                    <div class="hexBottom"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>8</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>10</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>9</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>3</p>
+                    <div class="hexBottom"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>5</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
+                    <div class="hexTop"></div>
+                    <p>2</p>
+                    <div class="hexBottom"></div>
+                </div>
+                <div class="hexagon">
                     <div class="hexTop"></div>
                     <p>6</p>
                     <div class="hexBottom"></div>
@@ -320,21 +321,31 @@
     </div>
     <script type="text/javascript">
         $('document').ready(function(){
+            $.ajax({
+                url: 'game/initialize_db',
+                method: 'post',
+                data: $('#form').serialize(),
+                success: function(serverResponse){
+                    var parsedResponse = JSON.parse(serverResponse);
+                    $('.hexagon').each(function(){
+                        $(this).addClass(parsedResponse.field_dict[parsedResponse.fields[$(this).data("id")]]);
+                        $(this).find('p').html(parsedResponse.num_dict[$(this).data("id")]);
+                    });
+                }
+            })
             let curr_player = 0;
+            
+            // add id data to each field
+            let field_id = 1;
+            $('.hexagon').each(function(){
+                $(this).data("id", field_id);
+                field_id++;
+            });
 
             // add id data to each settlement
-            let settlement_id = 4;
+            let settlement_id = 1;
             $(".circle").each(function(){
-                // This weird conditional is because I skipped a settlement in assignment, oops.
-                if (settlement_id < 31) {
-                    $(this).data("id", settlement_id);
-                }
-                else if (settlement_id === 31) {
-                    $(this).data("id", 57);
-                }
-                else {
-                    $(this).data("id", settlement_id - 1);
-                }
+                $(this).data("id", settlement_id);
                 settlement_id++;
             });
             
@@ -515,7 +526,6 @@
                     method: 'post',
                     data: $('#end_form').serialize(),
                     success: function(serverResponse){
-                        console.log(typeof serverResponse)
                         try {
                             $(".alert-danger").hide();
                             let parsedResponse = JSON.parse(serverResponse)
@@ -527,7 +537,6 @@
                             $(".player_tab").addClass("player" + curr_player)
                         }
                         catch(SyntaxError) {
-                            console.log("Made it to else")
                             $('body').html(serverResponse)
                         }
                     }
