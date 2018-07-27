@@ -284,18 +284,18 @@ p {
     display: block;
 }
 
-#tradeform {
+#trade-btns {
     position: absolute;
     right: 60px;
-    top: 520px;
+    top: 420px;
 }
 
-#tradeform .btn {
+#trade-btns .btn {
     display: block;
     margin: 20px 0px;
 }
 
 .btn-success {
-    width: 100px;
+    width: fit-content;
     margin: 10px 0px;
 }

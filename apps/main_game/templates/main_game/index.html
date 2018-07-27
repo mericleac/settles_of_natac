@@ -311,16 +311,18 @@
         <p>{{ message }}</p>
         {% endfor %}
     </div>
-    <form id="tradeform">
-        {% csrf_token %}
-        {% for player in all_players %}
-            <button class="trading btn btn-warning" id={{ player.id }}>Trade with {{player.name}}</button>
-        {% endfor %}
-    </form>
-    <form id="banktradeform">
-        {% csrf_token %}
-        <button class ="btn btn-success" id="banktrade">Trade with the bank!</button>
-    </form>
+    <div id="trade-btns">
+        <form id="tradeform">
+            {% csrf_token %}
+            {% for player in all_players %}
+                <button class="trading btn btn-warning player{{ player.turn_index }}" id={{ player.id }}>Trade with {{player.name}}</button>
+            {% endfor %}
+        </form>
+        <form id="banktradeform">
+            {% csrf_token %}
+            <button class ="btn btn-success" id="banktrade">Trade with the bank!</button>
+        </form>
+    </div>
     <div id="wrapper" style="display: none"></div>
     <div id="bankwrapper" style="display: none"></div>
     <script type="text/javascript">
