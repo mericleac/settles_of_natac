@@ -291,10 +291,8 @@
     <button type="button" id="dice" class="btn btn-primary">Roll dice!</button>
     <form action="/game/end_turn" id="end_form">
         {% csrf_token %}
-        <button id="end_turn" class="btn btn-danger">End turn</button>
-    </form>
-    
-    
+        <button id="end_turn" class="btn btn-danger" disabled="true">End turn</button>
+    </form>    
     <div class="player_info">
         <div class="player_tab player{{ player.turn_index }}">{{ player.name }}</div>
         <div class="player_stats player{{ player.turn_index }}">
@@ -307,20 +305,20 @@
             <p>Victory Points: {{ player.vic_points }}</p>
         </div>
     </div>
-    <div id="trading">
-    </div>
     <a id="free" href="/game/resources">Free stuff here</a>
-    {% for player in all_players %}
-    <p><a href="trading/{{player.id}}">Trade with {{player.name}}</a></p>
-    {% endfor %}
-    <p><a href="trading/bank">Trade with Bank</a></p>
-
     <div class="log">
         {% for message in log reversed %}
         <p>{{ message }}</p>
         {% endfor %}
     </div>
-    <a id="trade"href=""></a>
+    <form id="tradeform">
+        {% csrf_token %}
+        {% for player in all_players %}
+            <button class="trading" id={{ player.id }}>Trade with {{player.name}} {{player.id}}</button>
+        {% endfor %}
+    </form>
+    <div id="wrapper" style = "display: none">
+    </div>
     <script type="text/javascript">
         $('document').ready(function(){
             $.ajax({
@@ -366,7 +364,6 @@
                     data: $('#form').serialize(),
                     success: function(serverResponse){
                         $(".alert-danger").hide();
-                        console.log(serverResponse)
                         var parsedResponse = JSON.parse(serverResponse)
                         //console.log(parsedResponse)
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
@@ -437,9 +434,7 @@
                             $(".alert-danger").show();
                         }
                         $(".circle").each(function(){
-                            console.log(parsedResponse)
                             if (parsedResponse.settlements[$(this).data("id")] !== false) {
-                                console.log(parsedResponse.settlements[$(this).data("id")])
                                 $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
@@ -457,7 +452,6 @@
             });
 
             $("#dice").click(function(){
-                console.log("dice are trying to roll. CATCH THEM!!!!")
                 $(this).prop("disabled", true);
                 $('#end_turn').prop("disabled", false);
                 $.ajax({
@@ -493,27 +487,36 @@
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
                         });
-                        console.log("gonna try and list partners now")
-                        console.log(parsedResponse)
-                        console.log(parsedResponse.partners)
-                        $("#trade").html(parsedResponse.partners)
                     }
                 });
                 return false
             })
-            $("#trade").click(function(){
-                console.log("dice are trying to roll. CATCH THEM!!!!")
+            $(".trading").click(function(e){
                 $.ajax({
-                    url: '/trading',
+                    url: '/trading/' + $(this).attr("id"),
                     method: 'post',
-                    data: $('#form').serialize(),
-                    success: function(serverResponse){
-                        console.log(serverResponse)
-                        $('body').html(serverResponse)
+                    data: $('#tradeform').serialize(),
+                    success: function(serverResponse) {
+                        $("#wrapper").html(serverResponse);
+                        $("#wrapper").show()
+                        $("#nvm").click(function(e){
+                            $("#wrapper").hide();
+                        });
+                        $("#confirm").click(function(e){
+                            $.ajax({
+                                url: '/trading/trade',
+                                method: 'post',
+                                data: $('#tradedata').serialize(),
+                                success: function(serverResponse) {
+                                    $("#wrapper").hide();
+                                }
+                            })
+                        })
                     }
-                });
-                return false
+                })
+                e.preventDefault();
             })
+
 
             $("#end_turn").click(function(){
                 $('#dice').prop("disabled", false);
