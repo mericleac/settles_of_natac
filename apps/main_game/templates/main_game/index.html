@@ -313,6 +313,7 @@
     {% for player in all_players %}
     <p><a href="trading/{{player.id}}">Trade with {{player.name}}</a></p>
     {% endfor %}
+    <p><a href="trading/bank">Trade with Bank</a></p>
 
     <div class="log">
         {% for message in log reversed %}
