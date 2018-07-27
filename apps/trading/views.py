@@ -1,13 +1,26 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from .models import *
+import json
 
 def index(request, id):
+    print("Made it here")
     playerA = Player.objects.get(id = request.session['currPlayer'])
     playerB = Player.objects.get(id = id)
     request.session['tradePartner'] = playerB.id
     if playerA == playerB:
-        print("You can not trade with yourself!")
-        return redirect('/game')
+        roads = Road.objects.all()
+        settlements = Settlement.objects.all()
+        settle_dict = {}
+        for settlement in settlements:
+            settle_dict[settlement.id] = settlement.is_owned()
+        road_dict = {}
+        for road in roads:
+            road_dict[road.id] = road.is_owned()
+        context = {
+            "Error": "You cannot trade with yourself!"
+        }
+        return JsonResponse(json.dumps(context), safe = False)
     context = {
         'p1': playerA,
         'p2': playerB
@@ -39,10 +52,54 @@ def trade(request):
     playerB.sheep -= int(request.POST['p2sheep'])
     playerA.save()
     playerB.save()
-    print("*"*80)
-    print(playerA.name, "vp:", playerA.vic_points, "wheat:", playerA.wheat, "ore:", playerA.ore, "brick", playerA.brick, "lumber:", playerA.lumber, "sheep:", playerA.sheep, )
-    print(playerB.name, "vp:", playerB.vic_points, "wheat:", playerB.wheat, "ore:", playerB.ore, "brick", playerB.brick, "lumber:", playerB.lumber, "sheep:", playerB.sheep, )
-    return redirect("/game")
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
+    context = {
+        "player_info": {
+            "name": playerA.name,
+            "brick": playerA.brick,
+            "sheep": playerA.sheep,
+            "ore": playerA.ore,
+            "wheat": playerA.wheat,
+            "lumber": playerA.lumber,
+            "vic_points": playerA.vic_points,
+        },
+        "settlements": settle_dict,
+        "roads": road_dict,
+        "same_player": "no"
+    }
+    return JsonResponse(json.dumps(context), safe = False)
+
+def nvm(request):
+    player = Player.objects.get(id=request.session['currPlayer'])
+    roads = Road.objects.all()
+    settlements = Settlement.objects.all()
+    settle_dict = {}
+    for settlement in settlements:
+        settle_dict[settlement.id] = settlement.is_owned()
+    road_dict = {}
+    for road in roads:
+        road_dict[road.id] = road.is_owned()
+    context = {
+        "player_info": {
+            "name": player.name,
+            "brick": player.brick,
+            "sheep": player.sheep,
+            "ore": player.ore,
+            "wheat": player.wheat,
+            "lumber": player.lumber,
+            "vic_points": player.vic_points,
+        },
+        "settlements": settle_dict,
+        "roads": road_dict,
+    }
+    return render(request, "main_game/index.html", context)
 
 def delete(request):
     Player.objects.all().delete()

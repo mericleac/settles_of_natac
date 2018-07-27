@@ -249,3 +249,33 @@ p {
 .city {
     border: 2px solid black;
 }
+
+
+
+
+#wrapper {
+    padding: 15px;
+    background-color: lightblue;
+}
+#submit{
+    margin: 15px 0px 15px 0px;
+}
+#p2{
+    margin-bottom:10px;
+}
+.resource_column{
+    display: inline-block;
+    width: 15%;
+    height: 200px;
+    margin: 1%;
+}
+.resource_column img{
+    display: block;
+    height: 180px;
+    width: 100%;
+    border: 1px solid grey;
+    margin-bottom: 10px;
+}
+.resource_column select{
+    display: block;
+}
