@@ -292,7 +292,7 @@
     <form action="/game/end_turn" id="end_form">
         {% csrf_token %}
         <button id="end_turn" class="btn btn-danger" disabled="true">End turn</button>
-    </form>    
+    </form>
     <div class="player_info">
         <div class="player_tab player{{ player.turn_index }}">{{ player.name }}</div>
         <div class="player_stats player{{ player.turn_index }}">
@@ -314,20 +314,28 @@
     <form id="tradeform">
         {% csrf_token %}
         {% for player in all_players %}
+<<<<<<< HEAD
             <button class="trading btn btn-warning" id={{ player.id }}>Trade with {{player.name}}</button>
+=======
+        <button class="trading" id={{ player.id }}>Trade with {{player.name}} {{player.id}}</button>
+>>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
         {% endfor %}
     </form>
-    <div id="wrapper" style = "display: none">
-    </div>
+    <form id="banktradeform">
+        {% csrf_token %}
+        <button class ="btn btn-success" id="banktrade">Trade with the bank!</button>
+    </form>
+    <div id="wrapper" style="display: none"></div>
+    <div id="bankwrapper" style="display: none"></div>
     <script type="text/javascript">
-        $('document').ready(function(){
+        $('document').ready(function () {
             $.ajax({
                 url: 'game/initialize_db',
                 method: 'post',
                 data: $('#form').serialize(),
-                success: function(serverResponse){
+                success: function (serverResponse) {
                     var parsedResponse = JSON.parse(serverResponse);
-                    $('.hexagon').each(function(){
+                    $('.hexagon').each(function () {
                         $(this).addClass(parsedResponse.field_dict[parsedResponse.fields[$(this).data("id")]]);
                         $(this).find('p').html(parsedResponse.num_dict[$(this).data("id")]);
                     });
@@ -336,35 +344,35 @@
                 }
             })
             let curr_player = 0;
-            
+
             // add id data to each field
             let field_id = 1;
-            $('.hexagon').each(function(){
+            $('.hexagon').each(function () {
                 $(this).data("id", field_id);
                 field_id++;
             });
 
             // add id data to each settlement
             let settlement_id = 1;
-            $(".circle").each(function(){
+            $(".circle").each(function () {
                 $(this).data("id", settlement_id);
                 settlement_id++;
             });
-            
+
             // add id data to each road
             let road_id = 1
-            $(".track").each(function(){
+            $(".track").each(function () {
                 $(this).data("id", road_id);
                 road_id++;
             });
 
-            $(".circle").click(function(){
+            $(".circle").click(function () {
                 var currCircle = $(this)
                 $.ajax({
                     url: '/game/settlement/' + $(this).data("id"),
                     method: 'post',
                     data: $('#form').serialize(),
-                    success: function(serverResponse){
+                    success: function (serverResponse) {
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
                         if (parsedResponse.setup) {
@@ -389,19 +397,19 @@
                                 //console.log(parsedResponse.errors[i])
                                 error_message += "<p>"
                                 error_message += parsedResponse.errors[i];
-                                error_message += "</p>";                              
+                                error_message += "</p>";
                             }
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
-                        $(".circle").each(function(){
+                        $(".circle").each(function () {
                             if (parsedResponse.settlements[$(this).data("id")] !== false) {
                                 //console.log(parsedResponse.settlements[$(this).data("id")])
                                 $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
 
-                        $(".track").each(function(){
+                        $(".track").each(function () {
                             if (parsedResponse.roads[$(this).data("id")] !== false) {
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
@@ -412,15 +420,16 @@
                 })
             });
 
-            $(".track").click(function(){
+            $(".track").click(function () {
                 var currTrack = $(this)
                 $.ajax({
                     url: '/game/road/' + $(this).data("id"),
                     method: 'post',
                     data: $('#form').serialize(),
-                    success: function(serverResponse){
+                    success: function (serverResponse) {
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
+<<<<<<< HEAD
                         if (parsedResponse.setup) {
                             $(".alert-primary").html(parsedResponse.setup);
                         }
@@ -428,6 +437,10 @@
                             $(".alert-primary").hide();
                         }
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+=======
+                        //console.log(parsedResponse)
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " + parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+>>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
                         $(".player_tab").addClass("player" + curr_player)
@@ -440,18 +453,18 @@
                                 //console.log(parsedResponse.errors[i])
                                 error_message += "<p>"
                                 error_message += parsedResponse.errors[i];
-                                error_message += "</p>";                              
+                                error_message += "</p>";
                             }
                             $(".alert-danger").html(error_message);
                             $(".alert-danger").show();
                         }
-                        $(".circle").each(function(){
+                        $(".circle").each(function () {
                             if (parsedResponse.settlements[$(this).data("id")] !== false) {
                                 $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
 
-                        $(".track").each(function(){
+                        $(".track").each(function () {
                             if (parsedResponse.roads[$(this).data("id")] !== false) {
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
@@ -463,19 +476,19 @@
                 })
             });
 
-            $("#dice").click(function(){
+            $("#dice").click(function () {
                 $(this).prop("disabled", true);
                 $('#end_turn').prop("disabled", false);
                 $.ajax({
                     url: '/game/roll_dice',
                     method: 'post',
                     data: $('#form').serialize(),
-                    success: function(serverResponse){
+                    success: function (serverResponse) {
                         $(".alert-danger").hide();
                         console.log("dice rolled")
                         var parsedResponse = JSON.parse(serverResponse)
                         //console.log(parsedResponse)
-                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " + parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
                         $(".player_tab").addClass("player" + curr_player)
@@ -487,14 +500,14 @@
                         }
                         $(".log").prepend(message)
 
-                        $(".circle").each(function(){
+                        $(".circle").each(function () {
                             if (parsedResponse.settlements[$(this).data("id")] !== false) {
                                 //console.log(parsedResponse.settlements[$(this).data("id")])
                                 $(this).addClass("player" + parsedResponse.settlements[$(this).data("id")])
                             }
                         });
 
-                        $(".track").each(function(){
+                        $(".track").each(function () {
                             if (parsedResponse.roads[$(this).data("id")] !== false) {
                                 $(this).addClass("player" + parsedResponse.roads[$(this).data("id")])
                             };
@@ -503,11 +516,12 @@
                 });
                 return false
             })
-            $(".trading").click(function(e){
+            $(".trading").click(function (e) {
                 $.ajax({
                     url: '/trading/' + $(this).attr("id"),
                     method: 'post',
                     data: $('#tradeform').serialize(),
+<<<<<<< HEAD
                     success: function(serverResponse) {
                         try {
                             let parsedResponse = JSON.parse(serverResponse)
@@ -532,31 +546,77 @@
                                 })
                             })
                         }
+=======
+                    success: function (serverResponse) {
+                        $("#wrapper").html(serverResponse);
+                        $("#wrapper").show()
+                        $("#nvm").click(function (e) {
+                            $("#wrapper").hide();
+                        });
+                        $("#confirm").click(function (e) {
+                            $.ajax({
+                                url: '/trading/trade',
+                                method: 'post',
+                                data: $('#tradedata').serialize(),
+                                success: function (serverResponse) {
+                                    $("#wrapper").hide();
+                                }
+                            })
+                            e.preventDefault();
+                        })
+                    }
+                })
+                e.preventDefault();
+            })
+            $("#banktrade").click(function (e) {
+                $.ajax({
+                    url: '/trading/bank',
+                    method: 'post',
+                    data: $('#banktradeform').serialize(),
+                    success: function (serverResponse) {
+                        $("#bankwrapper").html(serverResponse);
+                        $("#bankwrapper").show()
+                        $("#nvm").click(function (e) {
+                            $("#bankwrapper").hide();
+                        });
+                        $("#bankconfirm").click(function (e) {
+                            console.log("tried to trade with bank")
+                            $.ajax({
+                                url: '/trading/tradeBank',
+                                method: 'post',
+                                data: $('#tradebankform').serialize(),
+                                success: function (serverResponse) {
+                                    console.log("traded with bank")
+                                    $("#bankwrapper").hide();
+                                }
+                            })
+                            e.preventDefault();
+                        })
+>>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
                     }
                 })
                 e.preventDefault();
             })
 
-
-            $("#end_turn").click(function(){
+            $("#end_turn").click(function () {
                 $('#dice').prop("disabled", false);
                 $(this).prop("disabled", true);
                 $.ajax({
                     url: '/game/end_turn',
                     method: 'post',
                     data: $('#end_form').serialize(),
-                    success: function(serverResponse){
+                    success: function (serverResponse) {
                         try {
                             $(".alert-danger").hide();
                             let parsedResponse = JSON.parse(serverResponse)
-                            var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
+                            var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " + parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                             $(".player_info").html(playerInfo)
                             curr_player = parsedResponse.curr_player;
                             let player = "player" + curr_player;
                             $(".player_stats").addClass("player" + curr_player)
                             $(".player_tab").addClass("player" + curr_player)
                         }
-                        catch(SyntaxError) {
+                        catch (SyntaxError) {
                             $('body').html(serverResponse)
                         }
                     }
@@ -564,11 +624,11 @@
                 return false
             })
 
-            $(".player_info").click(function(){
+            $(".player_info").click(function () {
                 $(".player_stats").toggle("slide", { direction: "left", easing: "linear" });
             });
         });
-    
+
     </script>
 </body>
 </html>
