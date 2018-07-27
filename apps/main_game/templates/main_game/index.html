@@ -314,11 +314,7 @@
     <form id="tradeform">
         {% csrf_token %}
         {% for player in all_players %}
-<<<<<<< HEAD
             <button class="trading btn btn-warning" id={{ player.id }}>Trade with {{player.name}}</button>
-=======
-        <button class="trading" id={{ player.id }}>Trade with {{player.name}} {{player.id}}</button>
->>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
         {% endfor %}
     </form>
     <form id="banktradeform">
@@ -429,7 +425,6 @@
                     success: function (serverResponse) {
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
-<<<<<<< HEAD
                         if (parsedResponse.setup) {
                             $(".alert-primary").html(parsedResponse.setup);
                         }
@@ -437,10 +432,6 @@
                             $(".alert-primary").hide();
                         }
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
-=======
-                        //console.log(parsedResponse)
-                        var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " + parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
->>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
                         $(".player_tab").addClass("player" + curr_player)
@@ -521,7 +512,6 @@
                     url: '/trading/' + $(this).attr("id"),
                     method: 'post',
                     data: $('#tradeform').serialize(),
-<<<<<<< HEAD
                     success: function(serverResponse) {
                         try {
                             let parsedResponse = JSON.parse(serverResponse)
@@ -546,28 +536,11 @@
                                 })
                             })
                         }
-=======
-                    success: function (serverResponse) {
-                        $("#wrapper").html(serverResponse);
-                        $("#wrapper").show()
-                        $("#nvm").click(function (e) {
-                            $("#wrapper").hide();
-                        });
-                        $("#confirm").click(function (e) {
-                            $.ajax({
-                                url: '/trading/trade',
-                                method: 'post',
-                                data: $('#tradedata').serialize(),
-                                success: function (serverResponse) {
-                                    $("#wrapper").hide();
-                                }
-                            })
-                            e.preventDefault();
-                        })
                     }
                 })
                 e.preventDefault();
             })
+
             $("#banktrade").click(function (e) {
                 $.ajax({
                     url: '/trading/bank',
@@ -592,7 +565,6 @@
                             })
                             e.preventDefault();
                         })
->>>>>>> 3d62ebfa79a7f95f7a806e30b4a81d21c90d7388
                     }
                 })
                 e.preventDefault();
