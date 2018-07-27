@@ -533,11 +533,13 @@
                             $("#bankwrapper").hide();
                         });
                         $("#bankconfirm").click(function (e) {
+                            console.log("tried to trade with bank")
                             $.ajax({
-                                url: '/trading/trade_bank',
+                                url: '/trading/tradeBank',
                                 method: 'post',
                                 data: $('#tradebankform').serialize(),
                                 success: function (serverResponse) {
+                                    console.log("traded with bank")
                                     $("#bankwrapper").hide();
                                 }
                             })

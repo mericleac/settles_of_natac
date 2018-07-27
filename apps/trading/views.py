@@ -101,6 +101,7 @@ def trade_bank(request):
         "settlements": settle_dict,
         "roads": road_dict,
         "same_player": "no"
+
     }
     print("*"*80)
     print(request.POST['p1brick'])
@@ -118,7 +119,9 @@ def trade_bank(request):
     if brick % 4 != 0 or sheep % 4 != 0 or ore % 4 != 0 or wheat % 4 != 0 or lumber % 4 != 0:
         print("Not multiple of 4!")
         print("have i broke yet")
-        messages.error(request, "Resources given away not multiple of 4", "tradeError")
+        context = {
+            "Error": "Resources given away not multiple of 4!"
+        }
         return JsonResponse(json.dumps(context), safe = False)
     elif (brick + sheep + ore + wheat + lumber) == (int(request.POST['p2brick'])*4 + int(request.POST['p2sheep'])*4 + int(request.POST['p2ore'])*4 + int(request.POST['p2wheat'])*4 + int(request.POST['p2lumber'])*4):
         playerA.wheat += int(request.POST['p2wheat'])
