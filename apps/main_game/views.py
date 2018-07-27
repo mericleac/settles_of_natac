@@ -62,6 +62,7 @@ def roll_dice(request):
 
 
 def setup(request):
+    print("Here?")
     request.session['currPlayer'] = request.session['player'][0]
     request.session['setup'] = True
     request.session['setup_round'] = 1
@@ -365,8 +366,8 @@ def initialize_db(request):
     for i in range (1, 7):
         print(i)
         R = Road.objects.get(id=i)
+        R.adjacent_settlements.add(Settlement.objects.get(id = (i)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i+1)))
-        R.adjacent_settlements.add(Settlement.objects.get(id = (i+2)))
         R.save()
     for i in range (11, 19):
         R = Road.objects.get(id = i)
@@ -393,36 +394,36 @@ def initialize_db(request):
         R.adjacent_settlements.add(Settlement.objects.get(id = (i-19)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i-18)))
         R.save()
+    count = 0
     for i in range(7, 11):
-        count = 0
         R = Road.objects.get(id = i)
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 6 + count)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i + 2 + count)))
         R.save()
         count += 1
+    count = 0
     for i in range(19, 24):
-        count = 0
         R = Road.objects.get(id = i)
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 11 + count)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 1 + count)))
         R.save()
         count += 1
+    count = 0
     for i in range(34, 40):
-        count = 0
         R = Road.objects.get(id = i)
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 17 + count)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 6 + count)))
         R.save()
         count += 1
+    count = 0
     for i in range(50, 55):
-        count = 0
         R = Road.objects.get(id = i)
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 21 + count)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 11 + count)))
         R.save()
         count += 1
+    count = 0
     for i in range(63, 67):
-        count = 0
         R = Road.objects.get(id = i)
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 23 + count)))
         R.adjacent_settlements.add(Settlement.objects.get(id = (i - 15 + count)))

@@ -86,7 +86,6 @@ def setup_roadr1(request, road_id):
         road_dict = {}
         for road in roads:
             road_dict[road.id] = road.is_owned()
-        settlement = Settlement.objects.get(id= int(settlement_id))
         context = {
             "player_info": {
                 "name": player.name,

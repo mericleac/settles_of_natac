@@ -87,6 +87,7 @@ class Road(models.Model):
         errors = []
         owned_settlement = False
         for settlement in self.adjacent_settlements.all():
+            print(player.settlements.all().values())
             if settlement.player == player:
                 owned_settlement = True
             else:

@@ -8,7 +8,6 @@ def index(request):
     return render(request, 'login_html/index.html')
 
 def register(request):
-
     if request.method == 'POST':
         errors = User.objects.basic_validator(request.POST)
         if len(errors):
@@ -39,7 +38,6 @@ def register(request):
         return render(request, 'login_html/index.html')
 
 def login(request):
-
     if request.method == 'POST':
         request.session['emailLogin'] = request.POST['email']
         if len(User.objects.filter(email=request.POST['email'])) < 1:
@@ -138,5 +136,5 @@ def lobbyReg(request):
         if len(request.session['player']) < 2:
             messages.error(request, 'Need to enter at least two players', 'playersCount')
             return redirect('/lobby')
-        return redirect('/game/initialize_db')
+        return redirect('/game/setup')
 
