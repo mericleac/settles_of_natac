@@ -181,7 +181,8 @@ def purchase_settlement (request, settlement_id):
             "city": city,
             "settlements": settle_dict,
             "roads": road_dict,
-            "success": True
+            "success": True,
+            "setup": request.session['setup'],
         }
         return JsonResponse(json.dumps(context), safe = False)
     else:
@@ -270,7 +271,8 @@ def purchase_road (request, road_id):
             },
             "settlements": settle_dict,
             "roads": road_dict,
-            "success": True
+            "success": True,
+            "setup": request.session['setup'],
         }
         return JsonResponse(json.dumps(context), safe = False)
     else:
@@ -656,6 +658,7 @@ def initialize_db(request):
         fields[field.id] = field.resource
         num_dict[field.id] = field.number
 
+    player = Player.objects.get(id = request.session['currPlayer'])
     context = {
         'field_dict': {
             'wheat': 'field',
@@ -666,6 +669,7 @@ def initialize_db(request):
             'none': 'desert'
         },
         'fields': fields,
-        'num_dict': num_dict
+        'num_dict': num_dict,
+        'player': player.name,
     }
     return JsonResponse(json.dumps(context), safe=False)

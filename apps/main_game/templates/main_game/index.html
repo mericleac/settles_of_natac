@@ -314,7 +314,7 @@
     <form id="tradeform">
         {% csrf_token %}
         {% for player in all_players %}
-            <button class="trading" id={{ player.id }}>Trade with {{player.name}} {{player.id}}</button>
+            <button class="trading btn btn-warning" id={{ player.id }}>Trade with {{player.name}}</button>
         {% endfor %}
     </form>
     <div id="wrapper" style = "display: none">
@@ -331,6 +331,8 @@
                         $(this).addClass(parsedResponse.field_dict[parsedResponse.fields[$(this).data("id")]]);
                         $(this).find('p').html(parsedResponse.num_dict[$(this).data("id")]);
                     });
+                    $(".alert-primary").show();
+                    $(".alert-primary").html("It is " + parsedResponse.player + "'s turn to put down a settlement.")
                 }
             })
             let curr_player = 0;
@@ -365,7 +367,12 @@
                     success: function(serverResponse){
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
-                        //console.log(parsedResponse)
+                        if (parsedResponse.setup) {
+                            $(".alert-primary").html(parsedResponse.setup);
+                        }
+                        else {
+                            $(".alert-primary").hide();
+                        }
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
@@ -414,7 +421,12 @@
                     success: function(serverResponse){
                         $(".alert-danger").hide();
                         var parsedResponse = JSON.parse(serverResponse)
-                        //console.log(parsedResponse)
+                        if (parsedResponse.setup) {
+                            $(".alert-primary").html(parsedResponse.setup);
+                        }
+                        else {
+                            $(".alert-primary").hide();
+                        }
                         var playerInfo = "<div class='player_tab'>" + parsedResponse.player_info.name + "</div><div class='player_stats'><h6>" + parsedResponse.player_info.name + "'s resources: </h6><p>Brick: " + parsedResponse.player_info.brick + "</p><p>Sheep: " +parsedResponse.player_info.sheep + "</p><p>Ore: " + parsedResponse.player_info.ore + "</p><p>Wheat: " + parsedResponse.player_info.wheat + "</p><p>Lumber: " + parsedResponse.player_info.lumber + "</p><p>Victory Points: " + parsedResponse.player_info.vic_points + "</p></div>"
                         $(".player_info").html(playerInfo)
                         $(".player_stats").addClass("player" + curr_player)
@@ -497,21 +509,29 @@
                     method: 'post',
                     data: $('#tradeform').serialize(),
                     success: function(serverResponse) {
-                        $("#wrapper").html(serverResponse);
-                        $("#wrapper").show()
-                        $("#nvm").click(function(e){
-                            $("#wrapper").hide();
-                        });
-                        $("#confirm").click(function(e){
-                            $.ajax({
-                                url: '/trading/trade',
-                                method: 'post',
-                                data: $('#tradedata').serialize(),
-                                success: function(serverResponse) {
-                                    $("#wrapper").hide();
-                                }
+                        try {
+                            let parsedResponse = JSON.parse(serverResponse)
+                            $(".alert-danger").html(parsedResponse.error);
+                            $(".alert-danger").show();
+                        } 
+                        catch(SyntaxError){
+                            $(".alert-danger").hide();
+                            $("#wrapper").html(serverResponse);
+                            $("#wrapper").show()
+                            $("#nvm").click(function(e){
+                                $("#wrapper").hide();
+                            });
+                            $("#confirm").click(function(e){
+                                $.ajax({
+                                    url: '/trading/trade',
+                                    method: 'post',
+                                    data: $('#tradedata').serialize(),
+                                    success: function(serverResponse) {
+                                        $("#wrapper").hide();
+                                    }
+                                })
                             })
-                        })
+                        }
                     }
                 })
                 e.preventDefault();

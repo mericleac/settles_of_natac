@@ -33,14 +33,17 @@ def setup_settlementr1(request, settlement_id):
             "settlements": settle_dict,
             "roads": road_dict,
             "curr_player": player.turn_index,
-            "success": False
+            "success": False,
+            "phase": "settlement",
+            "setup": request.session['setup']
         }
         return JsonResponse(json.dumps(context), safe = False)
     settlement.player = player
     settlement.save()
     if request.session['setup_round'] == 2:
         for adjacent_field in settlement.adjacent_fields.all():
-            player.__dict__[str(adjacent_field.resource)] += 1
+            if adjacent_field.resource != "none":
+                player.__dict__[str(adjacent_field.resource)] += 1
     roads = Road.objects.all()
     settlements = Settlement.objects.all()
     settle_dict = {}
@@ -67,7 +70,9 @@ def setup_settlementr1(request, settlement_id):
         "settlements": settle_dict,
         "curr_player": player.turn_index,
         "roads": road_dict,
-        "success": True
+        "phase": "settlement",
+        "success": True,
+        "setup": "It is " + player.name + "'s turn to place a road."
     }
     return JsonResponse(json.dumps(context), safe = False)
 
@@ -99,7 +104,9 @@ def setup_roadr1(request, road_id):
             "errors": errors,
             "settlements": settle_dict,
             "roads": road_dict,
-            "success": False
+            "success": False,
+            "phase": "road",
+            "setup": request.session['setup']
         }
         return JsonResponse(json.dumps(context), safe = False)
     road.player = player
@@ -125,7 +132,9 @@ def setup_roadr1(request, road_id):
         },
         "settlements": settle_dict,
         "roads": road_dict,
-        "success": True
+        "phase": "road",
+        "success": True,
+        "setup": "It is " + player.name + "'s turn to place a settlement."
     }
     return redirect('/setup/end_turn')
 
@@ -143,6 +152,53 @@ def end_turn(request):
     road_dict = {}
     for road in roads:
         road_dict[road.id] = road.is_owned()
+    if request.session['setup_round'] == 1:
+        if player == players[-1]:
+            request.session['setup_round'] = 2
+            currPlayer = Player.objects.get(id=request.session['currPlayer'])
+            context = {
+                "player_info": {
+                    "name": currPlayer.name,
+                    "brick": currPlayer.brick,
+                    "sheep": currPlayer.sheep,
+                    "ore": currPlayer.ore,
+                    "wheat": currPlayer.wheat,
+                    "lumber": currPlayer.lumber,
+                    "vic_points": currPlayer.vic_points,
+                },
+                "curr_player": Player.objects.get(id=player).turn_index,
+                "settlements": settle_dict,
+                "roads": road_dict,
+                "success": True,
+                "setup": "It is " + currPlayer.name + "'s turn to place a settlement."
+            }
+            return JsonResponse(json.dumps(context), safe = False)
+        request.session['currPlayer'] = player+1
+        print(request.session['currPlayer'])
+    elif request.session['setup_round'] == 2:   
+        if request.session['currPlayer'] != players[0]:
+            request.session['currPlayer'] = player-1
+        else:
+            request.session['setup'] = False
+            #print("Ending setup")
+            context = {
+                "player_info": {
+                    "name": currPlayer.name,
+                    "brick": currPlayer.brick,
+                    "sheep": currPlayer.sheep,
+                    "ore": currPlayer.ore,
+                    "wheat": currPlayer.wheat,
+                    "lumber": currPlayer.lumber,
+                    "vic_points": currPlayer.vic_points,
+                },
+                "curr_player": Player.objects.get(id=player).turn_index,
+                "settlements": settle_dict,
+                "roads": road_dict,
+                "success": True,
+                "setup": False,
+            }
+            return JsonResponse(json.dumps(context), safe = False)
+    currPlayer = Player.objects.get(id=request.session['currPlayer'])
     context = {
         "player_info": {
             "name": currPlayer.name,
@@ -156,20 +212,7 @@ def end_turn(request):
         "curr_player": Player.objects.get(id=player).turn_index,
         "settlements": settle_dict,
         "roads": road_dict,
-        "success": True
+        "success": True,
+        "setup": "It is " + currPlayer.name + "'s turn to place a settlement."
     }
-    if request.session['setup_round'] == 1:
-        if player == players[-1]:
-            request.session['setup_round'] = 2
-            return JsonResponse(json.dumps(context), safe = False)
-        request.session['currPlayer'] = player+1
-        print(request.session['currPlayer'])
-    elif request.session['setup_round'] == 2:   
-        if request.session['currPlayer'] != players[0]:
-            request.session['currPlayer'] = player-1
-        else:
-            request.session['setup'] = False
-            #print("Ending setup")
-            return JsonResponse(json.dumps(context), safe = False)
-    print(request.session['currPlayer'])
     return JsonResponse(json.dumps(context), safe = False)

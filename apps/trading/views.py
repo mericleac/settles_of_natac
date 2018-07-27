@@ -19,7 +19,7 @@ def index(request, id):
         for road in roads:
             road_dict[road.id] = road.is_owned()
         context = {
-            "Error": "You cannot trade with yourself!"
+            "error": "You cannot trade with yourself!"
         }
         return JsonResponse(json.dumps(context), safe = False)
     context = {

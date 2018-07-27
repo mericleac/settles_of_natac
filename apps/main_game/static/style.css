@@ -283,3 +283,19 @@ p {
 .resource_column select{
     display: block;
 }
+
+#tradeform {
+    position: absolute;
+    right: 60px;
+    top: 520px;
+}
+
+#tradeform .btn {
+    display: block;
+    margin: 20px 0px;
+}
+
+.btn-success {
+    width: 100px;
+    margin: 10px 0px;
+}
